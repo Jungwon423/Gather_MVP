@@ -5,12 +5,18 @@ import 'dart:typed_data';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:gather_mvp/theme.dart';
+import 'package:gather_mvp/widgets/finish_dialog.dart';
+import 'package:gather_mvp/widgets/messages_in_chat.dart';
+import 'package:gather_mvp/widgets/sound_recorder.dart';
 import 'package:googleapis/texttospeech/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
+import 'Google_API_Credentials.dart';
+import 'Provider/provider_chat.dart';
 import 'models/chat_in_chat.dart';
 
 
@@ -124,7 +130,6 @@ class _NewChatScreenState extends State<NewChatScreen> {
     bool ok = responseMap['tip_ok'];
     double credit = responseMap['credit'];
     if (!mounted) return;
-    context.read<ProviderCredit>().deductCredit(credit);
 
     if (ok) {
       String tipSentence = responseMap['tip_sentence'];
