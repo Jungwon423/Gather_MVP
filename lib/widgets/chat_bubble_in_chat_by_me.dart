@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:jumping_dot/jumping_dot.dart';
@@ -23,7 +22,6 @@ class ChatBubbleInChatByMe extends StatefulWidget {
 
 class _ChatBubbleInChatByMeState extends State<ChatBubbleInChatByMe> {
   late AutoRefreshingAuthClient client;
-  AudioPlayer audioPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -67,7 +65,7 @@ class _ChatBubbleInChatByMeState extends State<ChatBubbleInChatByMe> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     listenButton(() {
-                      speak(widget.message, context, client, audioPlayer);
+                      speak(widget.message, context, client);
                     }),
                     const SizedBox(
                       height: 15,

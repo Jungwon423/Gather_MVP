@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:gather_mvp/widgets/sound_recorder.dart';
@@ -18,6 +17,9 @@ import '../models/chat_in_chat.dart';
 import 'finish_dialog.dart';
 import 'messages_in_chat.dart';
 
+import 'dart:typed_data';
+import 'dart:html' as html;
+
 class NewChatScreen extends StatefulWidget {
   const NewChatScreen({super.key});
 
@@ -26,12 +28,13 @@ class NewChatScreen extends StatefulWidget {
 }
 
 class _NewChatScreenState extends State<NewChatScreen> {
-  final recorder = SoundRecorder();
+  SoundRecorder recorder = SoundRecorder();
 
   int voiceIndex = 0;
 
   bool canSpeak = false;
 
+  String initialChat = '';
   String chatId = '';
 
   List<ChatInChat> chatList = [];
@@ -40,23 +43,37 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
   final ScrollController scrollController = ScrollController();
 
+  Future makeChat() async {
+    String uri = 'http://101.101.209.105:80/chat/makeChat';
+
+    http.Response response = await http.post(Uri.parse(uri),
+        headers: <String, String>{'Content-Type': "application/json"},
+        body: jsonEncode(<String, dynamic>{"problem": '친구와 대화'}));
+
+    String responseBody = utf8.decode(response.bodyBytes);
+    Map<String, dynamic> responseMap = json.decode(responseBody);
+
+    print(responseMap);
+
+    chatId = responseMap['chat_id'];
+    initialChat = responseMap['result'];
+  }
+
   @override
   void initState() {
     super.initState();
-    chatId = context.read<ProviderChat>().chatId;
-    chatList.add(ChatInChat(DateTime.now(),
-        context.read<ProviderChat>().initialChat, 'GPT', false, [''], true));
+    makeChat().then((value) async {
+      chatList.add(
+          ChatInChat(DateTime.now(), initialChat, 'GPT', false, [''], true));
 
-    getRecommend(0);
-
-    initAPI().then(
-        (value) => speak(context.read<ProviderChat>().initialChat).then((_) => {
-              recorder.init().then((value) => {
-                    setState(() {
-                      canSpeak = true;
-                    })
+      await initAPI().then((value) => speak(initialChat).then((_) => {
+            recorder.init().then((value) => {
+                  setState(() {
+                    canSpeak = true;
                   })
-            }));
+                })
+          }));
+    });
   }
 
   Future<void> initAPI() async {
@@ -93,12 +110,11 @@ class _NewChatScreenState extends State<NewChatScreen> {
       setState(() {});
 
       // 1. BE에서 text를 document에 삽입할 수 있도록 보내준다
-      await sendToBE(transcribe);
+      // await sendToBE(transcribe);
 
       // 2. BE에 whisper transcribe 된 것에 대한 tip 요청
       if (chatList.length % 2 == 0) {
-        getShortTip(chatList.length - 1);
-        getTip(chatList.length - 1);
+        // getShortTip(chatList.length - 1); // TODO
       }
 
       // WaitingChatBubble 추가
@@ -111,8 +127,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
   }
 
   Future getShortTip(int index) async {
-    String uri = 'http://101.101.209.54:80/chat/shortTip';
-    // String uri = 'http://43.201.21.32:80/chat/shortTip';
+    String uri = 'http://101.101.209.105:80/chat/shortTip';
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: <String, String>{'Content-Type': "application/json"},
@@ -139,8 +154,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
       setState(() {});
 
-      String uri2 = 'http://101.101.209.54:80/chat/translate';
-      // String uri2 = 'http://43.201.21.32:80/chat/translate';
+      String uri2 = 'http://101.101.209.105:80/chat/translate';
 
       // 번역 요청 API
       http.Response response = await http.post(Uri.parse(uri2),
@@ -169,23 +183,9 @@ class _NewChatScreenState extends State<NewChatScreen> {
     }
   }
 
-  Future getTip(int index) async {
-    String uri = 'http://101.101.209.54:80/chat/tip';
-    // String uri = 'http://43.201.21.32:80/chat/tip';
-
-    await http.post(Uri.parse(uri),
-        headers: <String, String>{'Content-Type': "application/json"},
-        body: jsonEncode(<String, dynamic>{
-          'idx': index,
-          'chat_id': chatId,
-        }));
-  }
-
 // TTS
   Future speak(String text) async {
     try {
-      AudioPlayer audioPlayer = AudioPlayer();
-
       // Google TTS API
       final input = SynthesisInput(text: text);
       final voice = VoiceSelectionParams(
@@ -203,18 +203,22 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
       List<int> audioContent =
           synthesizeSpeechResponse.audioContentAsBytes; // List<int> 오디오 파일을 받음
-      //
 
-      Source source = BytesSource(Uint8List.fromList(audioContent));
-      audioPlayer.play(source);
+      final blob = html.Blob([audioContent], 'audio/mpeg');
+
+      // Create a URL pointing to the Blob and create an AudioElement
+      final blobUrl = html.Url.createObjectUrlFromBlob(blob);
+      final audioElement = html.AudioElement(blobUrl);
+
+      // Play the audio file
+      audioElement.play();
     } catch (error) {
       print(error);
     }
   }
 
   Future sendToBE(String input) async {
-    String uri = 'http://101.101.209.54:80/chat/insertDB';
-    // String uri = 'http://43.201.21.32:80/chat/insertDB';
+    String uri = 'http://101.101.209.105:80/chat/insertDB';
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: <String, String>{'Content-Type': "application/json"},
@@ -228,33 +232,9 @@ class _NewChatScreenState extends State<NewChatScreen> {
     return responseMap['result'];
   }
 
-  Future getRecommend(int index) async {
-    String uri = 'http://101.101.209.54:80/chat/recommend';
-    // String uri = 'http://43.201.21.32:80/chat/recommend';
-
-    http.Response response = await http.post(Uri.parse(uri),
-        headers: <String, String>{'Content-Type': "application/json"},
-        body: jsonEncode(<String, dynamic>{
-          'idx': index,
-          'chat_id': chatId,
-        }));
-    String responseBody = utf8.decode(response.bodyBytes);
-    Map<String, dynamic> responseMap = json.decode(responseBody);
-
-    int idx = responseMap['idx'];
-    String recommendedAnswer = responseMap['recommended answer'];
-
-    ChatInChat chatInChat = chatList[idx];
-    chatInChat.helpText = [recommendedAnswer];
-
-    chatList[idx] = chatInChat;
-
-    setState(() {});
-  }
-
   Future askGPT(String input) async {
-    String uri = 'http://101.101.209.54:80/chat/askGPT';
-    // String uri = 'http://43.201.21.32:80/chat/askGPT';
+    print('askGPT 시작');
+    String uri = 'http://101.101.209.105:80/chat/askGPT';
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: <String, String>{'Content-Type': "application/json"},
@@ -265,7 +245,6 @@ class _NewChatScreenState extends State<NewChatScreen> {
     String responseBody = utf8.decode(response.bodyBytes);
     Map<String, dynamic> responseMap = json.decode(responseBody);
 
-    bool finish = responseMap['finish'];
     String result = responseMap['result'];
 
     // 빙글빙글 도는 점 삭제
@@ -273,27 +252,14 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
     // recommend 제외 값 삽입
     chatList
-        .add(ChatInChat(DateTime.now(), result, 'GPT', false, [''], !finish));
+        .add(ChatInChat(DateTime.now(), result, 'GPT', false, [''], false));
     setState(() {});
-
-    if (!finish) {
-      getRecommend(chatList.length - 1);
-    }
 
     await speak(result);
 
     setState(() {
       canSpeak = true;
     });
-
-    if (finish) {
-      // ignore: use_build_context_synchronously
-      showDialog(
-          context: context,
-          builder: (context) {
-            return const FinishDialog();
-          });
-    } else {}
   }
 
   @override
@@ -305,7 +271,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
         backgroundColor: Colors.transparent,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: AvatarGlow(
-          animate: recorder.isRecording ?? false,
+          animate: recorder.isRecording,
           glowColor: Colors.red,
           endRadius: 75.0,
           duration: const Duration(milliseconds: 1000),
@@ -315,11 +281,11 @@ class _NewChatScreenState extends State<NewChatScreen> {
             style: ElevatedButton.styleFrom(
               surfaceTintColor: Colors.white,
               backgroundColor:
-                  recorder.isRecording ?? false ? Colors.red : Colors.amber,
+                  recorder.isRecording ? Colors.red : Colors.amber,
               shape: const CircleBorder(),
             ),
             onPressed: () async {
-              if (recorder.isRecording ?? false) {
+              if (recorder.isRecording) {
                 transcribe(chatList[chatList.length - 1].chat);
               } else if (recorder.isRecording == false && canSpeak == true) {
                 await recorder.record();
@@ -330,7 +296,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
               height: 75,
               width: 75,
               child: Icon(
-                recorder.isRecording ?? false ? Icons.stop : Icons.mic,
+                recorder.isRecording ? Icons.stop : Icons.mic,
                 size: 50,
                 color: Colors.white,
               ),

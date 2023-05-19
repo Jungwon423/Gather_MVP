@@ -16,9 +16,11 @@ import 'package:http/http.dart' as http;
 
 import '../../theme.dart';
 
+import 'dart:html' as html;
+
 // TTS
-Future speak(String text, BuildContext context, AutoRefreshingAuthClient client,
-    AudioPlayer audioPlayer) async {
+Future speak(
+    String text, BuildContext context, AutoRefreshingAuthClient client) async {
   try {
     final input = SynthesisInput(text: text);
     final voice = VoiceSelectionParams(
@@ -33,8 +35,14 @@ Future speak(String text, BuildContext context, AutoRefreshingAuthClient client,
 
     List<int> audioContent = synthesizeSpeechResponse.audioContentAsBytes;
 
-    Source source = BytesSource(Uint8List.fromList(audioContent));
-    audioPlayer.play(source);
+    final blob = html.Blob([audioContent], 'audio/mpeg');
+
+    // Create a URL pointing to the Blob and create an AudioElement
+    final blobUrl = html.Url.createObjectUrlFromBlob(blob);
+    final audioElement = html.AudioElement(blobUrl);
+
+    // Play the audio file
+    audioElement.play();
   } catch (error) {
     print(error);
   }
@@ -42,21 +50,7 @@ Future speak(String text, BuildContext context, AutoRefreshingAuthClient client,
 
 // 번역 API
 Future translateAPI(String text) async {
-  String uri = 'https://naveropenapi.apigw.ntruss.com/nmt/v1/translation';
-
-  http.Response response = await http.post(Uri.parse(uri),
-      headers: <String, String>{
-        'Content-Type': "application/json",
-        'X-NCP-APIGW-API-KEY-ID': 'mhpdvzefox',
-        'X-NCP-APIGW-API-KEY': 'yL2DMqFy986OsxDZx4rDtWV0pl55XlcAoJ4qXHa3'
-      },
-      // INPUT 형식
-      body: jsonEncode(
-          <String, dynamic>{'source': 'en', 'target': 'ko', 'text': text}));
-  //
-  Map<String, dynamic> responseMap = json.decode(response.body);
-
-  String translatedText = responseMap['message']['result']['translatedText'];
+  String translatedText = 'TODO : 백엔드로 translate API 만들기';
 
   return translatedText;
 }

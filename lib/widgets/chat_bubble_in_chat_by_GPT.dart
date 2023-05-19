@@ -67,7 +67,7 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     listenButton(() {
-                      speak(widget.message, context, client, audioPlayer);
+                      speak(widget.message, context, client);
                     }),
                     const SizedBox(
                       height: 15,
@@ -90,63 +90,6 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
                   ],
                 ),
               ),
-              if (widget.tipExist == true)
-                const Divider(thickness: 1.5, height: 30, color: Colors.grey),
-              if (widget.tipExist == true)
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Text('📒 커리비가 추천하는 답변',
-                            style: textTheme().displayLarge!.copyWith(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700)),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      if (fold == false)
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              widget.helpText[0] != ''
-                                  ? Text(widget.helpText[0],
-                                      style: textTheme().displayLarge!.copyWith(
-                                          color: Colors.grey[600],
-                                          fontWeight: FontWeight.w500))
-                                  : Center(
-                                      child: JumpingDots(
-                                        color: Colors.amber,
-                                        radius: 6,
-                                        numberOfDots: 3,
-                                        animationDuration: Duration(milliseconds: 200),
-                                      ),
-                                    ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              translateButton(() {
-                                setState(() {
-                                  translateHelp = !translateHelp;
-                                });
-                              }, translateHelp),
-                              if (translateHelp)
-                                translateText(widget.helpText[0]),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                            ]),
-                      foldButton(() {
-                        setState(() {
-                          fold = !fold;
-                        });
-                      }, fold),
-                    ],
-                  ),
-                ),
             ]),
           ),
         ],
