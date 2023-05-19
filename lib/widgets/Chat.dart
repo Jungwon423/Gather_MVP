@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -18,7 +17,6 @@ import '../Provider/provider_chat.dart';
 import '../models/chat_in_chat.dart';
 import 'finish_dialog.dart';
 import 'messages_in_chat.dart';
-
 
 class NewChatScreen extends StatefulWidget {
   const NewChatScreen({super.key});
@@ -52,13 +50,13 @@ class _NewChatScreenState extends State<NewChatScreen> {
     getRecommend(0);
 
     initAPI().then(
-            (value) => speak(context.read<ProviderChat>().initialChat).then((_) => {
-          recorder.init().then((value) => {
-            setState(() {
-              canSpeak = true;
-            })
-          })
-        }));
+        (value) => speak(context.read<ProviderChat>().initialChat).then((_) => {
+              recorder.init().then((value) => {
+                    setState(() {
+                      canSpeak = true;
+                    })
+                  })
+            }));
   }
 
   Future<void> initAPI() async {
@@ -85,7 +83,6 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
     // 내가 말한 걸 whisper로 text 변환
     String transcribe = await recorder.transcribe(prompt);
-
 
     if (transcribe != 'error' && transcribe != 'recorder not playing') {
       setState(() {});
@@ -142,7 +139,6 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
       setState(() {});
 
-
       String uri2 = 'http://101.101.209.54:80/chat/translate';
       // String uri2 = 'http://43.201.21.32:80/chat/translate';
 
@@ -189,6 +185,8 @@ class _NewChatScreenState extends State<NewChatScreen> {
   Future speak(String text) async {
     try {
       AudioPlayer audioPlayer = AudioPlayer();
+
+      // Google TTS API
       final input = SynthesisInput(text: text);
       final voice = VoiceSelectionParams(
           languageCode: 'en-US',
@@ -199,21 +197,16 @@ class _NewChatScreenState extends State<NewChatScreen> {
           audioConfig: audioConfig, input: input, voice: voice);
 
       SynthesizeSpeechResponse synthesizeSpeechResponse =
-      await TexttospeechApi(client)
-          .text
-          .synthesize(synthesizeSpeechRequest);
+          await TexttospeechApi(client)
+              .text
+              .synthesize(synthesizeSpeechRequest);
 
-      List<int> audioContent = synthesizeSpeechResponse.audioContentAsBytes;
+      List<int> audioContent =
+          synthesizeSpeechResponse.audioContentAsBytes; // List<int> 오디오 파일을 받음
+      //
 
-      if (Platform.isAndroid) {
-        Source source = BytesSource(Uint8List.fromList(audioContent));
-        audioPlayer.play(source);
-      } else {
-        Directory tempDir = await getTemporaryDirectory();
-        final file = File('${tempDir.path}/TTS.wav');
-        await file.writeAsBytes(audioContent);
-        audioPlayer.play(DeviceFileSource('${tempDir.path}/TTS.wav'));
-      }
+      Source source = BytesSource(Uint8List.fromList(audioContent));
+      audioPlayer.play(source);
     } catch (error) {
       print(error);
     }
@@ -307,8 +300,9 @@ class _NewChatScreenState extends State<NewChatScreen> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
-      width: screenWidth/2,
+      width: screenWidth / 2,
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: AvatarGlow(
           animate: recorder.isRecording ?? false,
@@ -321,12 +315,12 @@ class _NewChatScreenState extends State<NewChatScreen> {
             style: ElevatedButton.styleFrom(
               surfaceTintColor: Colors.white,
               backgroundColor:
-              recorder.isRecording ?? false ? Colors.red : Colors.amber,
+                  recorder.isRecording ?? false ? Colors.red : Colors.amber,
               shape: const CircleBorder(),
             ),
             onPressed: () async {
               if (recorder.isRecording ?? false) {
-                transcribe(chatList[chatList.length-1].chat);
+                transcribe(chatList[chatList.length - 1].chat);
               } else if (recorder.isRecording == false && canSpeak == true) {
                 await recorder.record();
                 setState(() {});

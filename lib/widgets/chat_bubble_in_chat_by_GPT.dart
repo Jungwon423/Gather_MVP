@@ -43,15 +43,15 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 100),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width / 3,
+            width: MediaQuery.of(context).size.width / 4.5,
             constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width / 3),
+                maxWidth: MediaQuery.of(context).size.width / 4.5),
             decoration: BoxDecoration(
               color: Colors.grey[100],
               borderRadius: const BorderRadius.all(

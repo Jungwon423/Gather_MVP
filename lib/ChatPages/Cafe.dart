@@ -8,8 +8,17 @@ class Cafe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(children: [CafeGoal(), NewChatScreen()])
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+            fit: BoxFit.fitWidth,
+            image: AssetImage('assets/images/스케치북2.png')),
+      ),
+      child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body:
+          Row(children: [CafeGoal(), NewChatScreen()])
+      ),
     );
   }
 }

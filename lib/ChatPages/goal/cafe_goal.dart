@@ -20,7 +20,7 @@ class CafeGoal extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(20),
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: Colors.transparent,
         borderRadius: BorderRadius.all(
           Radius.circular(12),
         ),
@@ -42,43 +42,47 @@ class CafeGoal extends StatelessWidget {
     return SizedBox(
       width: screenWidth / 2,
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         body: Center(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: const BorderRadius.all(
-                Radius.circular(12),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 150),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(12),
+                ),
               ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  '생일 물어보기',
-                  style: textTheme().displayLarge,
-                ),
-                Text(
-                  '미션',
-                  style: textTheme().displayMedium,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                expressionContainer(),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  '표현 공부',
-                  style: textTheme().displayMedium,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                expressionContainer()
-              ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '생일 물어보기',
+                    style: textTheme().displayLarge,
+                  ),
+                  Text(
+                    '미션',
+                    style: textTheme().displayMedium,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  expressionContainer(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    '표현 공부',
+                    style: textTheme().displayMedium,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  expressionContainer()
+                ],
+              ),
             ),
           ),
         ),

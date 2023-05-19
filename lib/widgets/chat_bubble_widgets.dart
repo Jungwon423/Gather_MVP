@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -34,15 +33,8 @@ Future speak(String text, BuildContext context, AutoRefreshingAuthClient client,
 
     List<int> audioContent = synthesizeSpeechResponse.audioContentAsBytes;
 
-    if (Platform.isAndroid) {
-      Source source = BytesSource(Uint8List.fromList(audioContent));
-      audioPlayer.play(source);
-    } else {
-      Directory tempDir = await getTemporaryDirectory();
-      final file = File('${tempDir.path}/TTS.wav');
-      await file.writeAsBytes(audioContent);
-      audioPlayer.play(DeviceFileSource('${tempDir.path}/TTS.wav'));
-    }
+    Source source = BytesSource(Uint8List.fromList(audioContent));
+    audioPlayer.play(source);
   } catch (error) {
     print(error);
   }
@@ -189,14 +181,14 @@ Column tipColumn(String tipSentence, String tipExplain) {
         Text(tipExplain,
             style: textTheme().displaySmall!.copyWith(color: Colors.black)),
       if (tipExplain == '')
-      Center(
-        child: JumpingDots(
-          color: Colors.amber,
-          radius: 6,
-          numberOfDots: 3,
-          animationDuration: Duration(milliseconds: 200),
+        Center(
+          child: JumpingDots(
+            color: Colors.amber,
+            radius: 6,
+            numberOfDots: 3,
+            animationDuration: Duration(milliseconds: 200),
+          ),
         ),
-      ),
     ],
   );
 }
