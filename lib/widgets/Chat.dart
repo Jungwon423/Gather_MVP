@@ -44,7 +44,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
   final ScrollController scrollController = ScrollController();
 
   Future makeChat() async {
-    String uri = 'http://101.101.209.105:80/chat/makeChat';
+    String uri = 'https://101.101.209.105:80/chat/makeChat';
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: <String, String>{'Content-Type': "application/json"},
@@ -127,7 +127,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
   }
 
   Future getShortTip(int index) async {
-    String uri = 'http://101.101.209.105:80/chat/shortTip';
+    String uri = 'https://101.101.209.105:80/chat/shortTip';
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: <String, String>{'Content-Type': "application/json"},
@@ -154,7 +154,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
       setState(() {});
 
-      String uri2 = 'http://101.101.209.105:80/chat/translate';
+      String uri2 = 'https://101.101.209.105:80/chat/translate';
 
       // 번역 요청 API
       http.Response response = await http.post(Uri.parse(uri2),
@@ -218,7 +218,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
   }
 
   Future sendToBE(String input) async {
-    String uri = 'http://101.101.209.105:80/chat/insertDB';
+    String uri = 'https://101.101.209.105:80/chat/insertDB';
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: <String, String>{'Content-Type': "application/json"},
@@ -234,7 +234,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
   Future askGPT(String input) async {
     print('askGPT 시작');
-    String uri = 'http://101.101.209.105:80/chat/askGPT';
+    String uri = 'https://101.101.209.105:80/chat/askGPT';
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: <String, String>{'Content-Type': "application/json"},
