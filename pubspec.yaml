@@ -51,7 +51,7 @@ dependencies:
   facebook_app_events: ^0.18.3
   share: ^2.0.4
   permission_handler_web: ^0.0.2 # web에서 권한 획득
-  universal_io: ^2.2.1
+  universal_io: ^2.2.0
   microphone: ^0.1.0
 
 

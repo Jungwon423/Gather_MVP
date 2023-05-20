@@ -45,7 +45,7 @@ class CafeGoal extends StatelessWidget {
         backgroundColor: Colors.transparent,
         body: Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 150),
+            padding: EdgeInsets.symmetric(horizontal: 60),
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               decoration: BoxDecoration(

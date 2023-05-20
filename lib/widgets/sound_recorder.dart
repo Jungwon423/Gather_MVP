@@ -45,9 +45,16 @@ class SoundRecorder {
 
   Future record() async {
     print('record 함수 진입');
-    microphoneRecorder = MicrophoneRecorder();
     print('microphoneRecorder 객체 생성');
-    await microphoneRecorder!.init();
+    try {
+      microphoneRecorder?.dispose();
+      microphoneRecorder = MicrophoneRecorder();
+      await microphoneRecorder!.init();
+      print(microphoneRecorder==null);
+    }
+    catch(e) {
+      print(e);
+    }
 
     print('record init 완료');
 
