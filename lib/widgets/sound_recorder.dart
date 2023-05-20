@@ -1,21 +1,13 @@
 import 'dart:convert';
 import 'dart:math';
-import 'dart:html' as html;
 import 'dart:typed_data';
 
-import 'package:audio_session/audio_session.dart';
-import 'package:flutter_sound/flutter_sound.dart';
-import 'package:flutter_sound/public/flutter_sound_recorder.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:microphone/microphone.dart';
-import 'package:mime/mime.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:universal_io/io.dart';
 
 import '../../../API_KEYS.dart';
+import 'dart:html' as html;
 
 class SoundRecorder {
   MicrophoneRecorder? microphoneRecorder;
@@ -27,10 +19,8 @@ class SoundRecorder {
   Uint8List? bytes;
 
   Future init() async {
-    final status = await Permission.microphone.request();
-    if (status != PermissionStatus.granted) {
-      throw RecordingPermissionException('Microphone permission not granted');
-    }
+    await html.window.navigator.getUserMedia(audio: true, video: true);
+
 
     recorderInit = true;
   }
