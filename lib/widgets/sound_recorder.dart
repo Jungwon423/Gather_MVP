@@ -47,13 +47,15 @@ class SoundRecorder {
     print('record 함수 진입');
     print('microphoneRecorder 객체 생성');
     try {
-      microphoneRecorder?.dispose();
+      // microphoneRecorder?.dispose();
       microphoneRecorder = MicrophoneRecorder();
       await microphoneRecorder!.init();
       print(microphoneRecorder==null);
     }
     catch(e) {
+      print('에러 발생 :!!!');
       print(e);
+      print('위는 에러 코드');
     }
 
     print('record init 완료');
