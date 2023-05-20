@@ -32,8 +32,6 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
   int voiceIndex = 0;
 
-  bool canSpeak = false;
-
   String initialChat = '';
   String chatId = '';
 
@@ -44,7 +42,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
   final ScrollController scrollController = ScrollController();
 
   Future makeChat() async {
-    String uri = 'https://101.101.209.105:80/chat/makeChat';
+    String uri = 'https://ai.zigdeal.shop:443/chat/makeChat';
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: <String, String>{'Content-Type': "application/json"},
@@ -67,11 +65,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
           ChatInChat(DateTime.now(), initialChat, 'GPT', false, [''], true));
 
       await initAPI().then((value) => speak(initialChat).then((_) => {
-            recorder.init().then((value) => {
-                  setState(() {
-                    canSpeak = true;
-                  })
-                })
+            recorder.init()
           }));
     });
   }
@@ -90,9 +84,6 @@ class _NewChatScreenState extends State<NewChatScreen> {
   // 녹음 종료 버튼 누름
   void transcribe(String prompt) async {
     await recorder.stop();
-    setState(() {
-      canSpeak = false;
-    });
 
     // WaitingChatBubble 추가
     chatList.add(ChatInChat(DateTime.now(), "", 'me', true, [''], false));
@@ -127,7 +118,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
   }
 
   Future getShortTip(int index) async {
-    String uri = 'https://101.101.209.105:80/chat/shortTip';
+    String uri = 'https://ai.zigdeal.shop:443/chat/shortTip';
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: <String, String>{'Content-Type': "application/json"},
@@ -154,7 +145,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
       setState(() {});
 
-      String uri2 = 'https://101.101.209.105:80/chat/translate';
+      String uri2 = 'https://101.101.209.105:443/chat/translate';
 
       // 번역 요청 API
       http.Response response = await http.post(Uri.parse(uri2),
@@ -218,7 +209,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
   }
 
   Future sendToBE(String input) async {
-    String uri = 'https://101.101.209.105:80/chat/insertDB';
+    String uri = 'https://101.101.209.105:443/chat/insertDB';
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: <String, String>{'Content-Type': "application/json"},
@@ -234,7 +225,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
   Future askGPT(String input) async {
     print('askGPT 시작');
-    String uri = 'https://101.101.209.105:80/chat/askGPT';
+    String uri = 'https://ai.zigdeal.shop:443/chat/askGPT';
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: <String, String>{'Content-Type': "application/json"},
@@ -257,9 +248,6 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
     await speak(result);
 
-    setState(() {
-      canSpeak = true;
-    });
   }
 
   @override
@@ -285,9 +273,12 @@ class _NewChatScreenState extends State<NewChatScreen> {
               shape: const CircleBorder(),
             ),
             onPressed: () async {
+              print('recorder 상태 : '+recorder.isRecording.toString());
               if (recorder.isRecording) {
+                print('recorder 녹음 종료');
                 transcribe(chatList[chatList.length - 1].chat);
-              } else if (recorder.isRecording == false && canSpeak == true) {
+              } else if (recorder.isRecording == false) {
+                print('recorder 녹음 시작');
                 await recorder.record();
                 setState(() {});
               }
