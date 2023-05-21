@@ -19,7 +19,7 @@ class SoundRecorder {
   Uint8List? bytes;
 
   Future init() async {
-    await html.window.navigator.getUserMedia(audio: true, video: true);
+    await html.window.navigator.getUserMedia(audio: true);
 
 
     recorderInit = true;
