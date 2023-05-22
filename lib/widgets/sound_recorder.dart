@@ -19,7 +19,9 @@ class SoundRecorder {
   Uint8List? bytes;
 
   Future init() async {
+    print('녹음 권한 획득 시도');
     await html.window.navigator.getUserMedia(audio: true);
+    print('녹음 권한 획득 끝!!');
 
 
     recorderInit = true;
@@ -39,6 +41,7 @@ class SoundRecorder {
     try {
       // microphoneRecorder?.dispose();
       microphoneRecorder = MicrophoneRecorder();
+      await html.window.navigator.getUserMedia(audio: true);
       await microphoneRecorder!.init();
       print(microphoneRecorder==null);
     }
