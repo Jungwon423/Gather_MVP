@@ -8,8 +8,9 @@ class WaitingChatBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 100),
+      padding: EdgeInsets.symmetric(vertical: 8, horizontal: screenWidth*0.05),
       child: Row(
         mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,

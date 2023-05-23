@@ -23,7 +23,6 @@ class SoundRecorder {
     await html.window.navigator.getUserMedia(audio: true);
     print('녹음 권한 획득 끝!!');
 
-
     recorderInit = true;
   }
 
@@ -43,9 +42,8 @@ class SoundRecorder {
       microphoneRecorder = MicrophoneRecorder();
       await html.window.navigator.getUserMedia(audio: true);
       await microphoneRecorder!.init();
-      print(microphoneRecorder==null);
-    }
-    catch(e) {
+      print(microphoneRecorder == null);
+    } catch (e) {
       print('에러 발생 :!!!');
       print(e);
       print('위는 에러 코드');
@@ -78,7 +76,7 @@ class SoundRecorder {
   Future<String> sendToWhisperAPI(String prompt) async {
     int random = Random().nextInt(3);
     String apiKey = apiKeyList[random];
-    String apiUrl = 'https://api.openai.com/v1/audio/translations';
+    String apiUrl = 'https://api.openai.com/v1/audio/transcriptions';
 
     if (bytes == null) {
       return 'bytes is null';
@@ -95,12 +93,8 @@ class SoundRecorder {
 
     // Attach the MP4 file
     request.files.add(
-      http.MultipartFile.fromBytes(
-        'file',
-        bytes!.toList(),
-        filename: 'openai.mp4'
-
-      ),
+      http.MultipartFile.fromBytes('file', bytes!.toList(),
+          filename: 'openai.mp4'),
     );
 
     // Add the model parameter

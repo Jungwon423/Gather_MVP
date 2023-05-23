@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gather_mvp/widgets/Chat.dart';
 
-import 'goal/cafe_goal.dart';
+import 'goal/inAirplane_goal.dart';
 
-class Cafe extends StatelessWidget {
-  const Cafe({Key? key}) : super(key: key);
+class InAirplane extends StatelessWidget {
+  const InAirplane({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -17,7 +18,7 @@ class Cafe extends StatelessWidget {
       child: Scaffold(
           backgroundColor: Colors.transparent,
           body:
-          Row(children: [CafeGoal(), NewChatScreen()])
+          Row(children: [InAirplaneGoal(), NewChatScreen()])
       ),
     );
   }

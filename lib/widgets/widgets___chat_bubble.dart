@@ -1,18 +1,11 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis/texttospeech/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:jumping_dot/jumping_dot.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../Provider/provider_chat.dart';
-
-import 'package:http/http.dart' as http;
 
 import '../../theme.dart';
 
@@ -32,6 +25,36 @@ Future speak(
 
     SynthesizeSpeechResponse synthesizeSpeechResponse =
         await TexttospeechApi(client).text.synthesize(synthesizeSpeechRequest);
+
+    List<int> audioContent = synthesizeSpeechResponse.audioContentAsBytes;
+
+    final blob = html.Blob([audioContent], 'audio/mpeg');
+
+    // Create a URL pointing to the Blob and create an AudioElement
+    final blobUrl = html.Url.createObjectUrlFromBlob(blob);
+    final audioElement = html.AudioElement(blobUrl);
+
+    // Play the audio file
+    audioElement.play();
+  } catch (error) {
+    print(error);
+  }
+}
+
+// 일본 TTS
+Future speakJapanese(
+    String text, BuildContext context, AutoRefreshingAuthClient client) async {
+  try {
+    final input = SynthesisInput(text: text);
+    final voice = VoiceSelectionParams(
+        languageCode: 'ja-JP', name: 'ja-JP-Neural2-B'); // TODO : 일본어 랜덤으로
+    final audioConfig = AudioConfig(audioEncoding: "MP3");
+
+    final synthesizeSpeechRequest = SynthesizeSpeechRequest(
+        audioConfig: audioConfig, input: input, voice: voice);
+
+    SynthesizeSpeechResponse synthesizeSpeechResponse =
+    await TexttospeechApi(client).text.synthesize(synthesizeSpeechRequest);
 
     List<int> audioContent = synthesizeSpeechResponse.audioContentAsBytes;
 
@@ -115,6 +138,27 @@ ConstrainedBox listenButton(VoidCallback onPressed) {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
           fixedSize: const Size(40, 40),
+          padding: EdgeInsets.zero,
+          shape: const CircleBorder(),
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.grey[200]),
+      child: const Icon(
+        Icons.volume_up_outlined,
+        size: 30,
+        color: Colors.black,
+      ),
+    ),
+  );
+}
+
+// 작은 스피커 버튼
+ConstrainedBox smallListenButton(VoidCallback onPressed) {
+  return ConstrainedBox(
+    constraints: const BoxConstraints.tightFor(width: 40),
+    child: ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+          fixedSize: const Size(30, 30),
           padding: EdgeInsets.zero,
           shape: const CircleBorder(),
           backgroundColor: Colors.white,

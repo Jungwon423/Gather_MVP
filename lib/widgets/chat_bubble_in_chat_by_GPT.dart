@@ -1,12 +1,11 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis_auth/auth_io.dart';
-import 'package:jumping_dot/jumping_dot.dart';
 
 import '../../Google_API_Credentials.dart';
 import '../../theme.dart';
 
-import 'chat_bubble_widgets.dart';
+import 'widgets___chat_bubble.dart';
 
 class ChatBubbleInChatByGPT extends StatefulWidget {
   const ChatBubbleInChatByGPT(this.message, this.helpText, this.tipExist,
@@ -42,8 +41,9 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 100),
+      padding: EdgeInsets.symmetric(vertical: 8, horizontal: screenWidth*0.05),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,9 +66,19 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    listenButton(() {
-                      speak(widget.message, context, client);
-                    }),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        listenButton(() {
+                          speak(widget.message, context, client);
+                        }),
+                        translateButton(() {
+                          setState(() {
+                            translate = !translate;
+                          });
+                        }, translate),
+                      ],
+                    ),
                     const SizedBox(
                       height: 15,
                     ),
@@ -81,11 +91,6 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
                     const SizedBox(
                       height: 20,
                     ),
-                    translateButton(() {
-                      setState(() {
-                        translate = !translate;
-                      });
-                    }, translate),
                     if (translate) translateText(widget.message)
                   ],
                 ),
