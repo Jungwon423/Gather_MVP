@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis/texttospeech/v1.dart';
@@ -10,6 +12,7 @@ import '../../Provider/provider_chat.dart';
 import '../../theme.dart';
 
 import 'dart:html' as html;
+import 'package:http/http.dart' as http;
 
 // TTS
 Future speak(
@@ -74,6 +77,20 @@ Future speakJapanese(
 // 번역 API
 Future translateAPI(String text) async {
   String translatedText = 'TODO : 백엔드로 translate API 만들기';
+
+
+  String uri = 'https://ai.zigdeal.shop:443/japanese/translate';
+
+  http.Response response = await http.post(Uri.parse(uri),
+      headers: <String, String>{'Content-Type': "application/json"},
+      body: jsonEncode(<String, dynamic>{"text": text}));
+
+  String responseBody = utf8.decode(response.bodyBytes);
+  Map<String, dynamic> responseMap = json.decode(responseBody);
+
+  print(responseMap);
+
+  translatedText = responseMap['result'];
 
   return translatedText;
 }

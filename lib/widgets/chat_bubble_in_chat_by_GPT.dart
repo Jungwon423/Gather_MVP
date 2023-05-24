@@ -70,7 +70,7 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         listenButton(() {
-                          speak(widget.message, context, client);
+                          speakJapanese(widget.message, context, client);
                         }),
                         translateButton(() {
                           setState(() {

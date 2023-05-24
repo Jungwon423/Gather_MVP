@@ -11,7 +11,10 @@ import '../models/chat_in_chat.dart';
 import 'messages_in_chat.dart';
 
 class NewChatScreen extends StatefulWidget {
-  const NewChatScreen({super.key});
+  NewChatScreen({super.key, required this.initialChat, required this.problem});
+
+  String initialChat;
+  String problem;
 
   @override
   State<NewChatScreen> createState() => _NewChatScreenState();
@@ -21,28 +24,24 @@ class _NewChatScreenState extends State<NewChatScreen> {
   SoundRecorder recorder = SoundRecorder();
 
   int voiceIndex = 0;
-
-  String initialChat = 'こんにちは、お客様。何かお探しですか？';
   String chatId = '';
 
-  List<ChatInChat> chatList = [
-    ChatInChat(DateTime.now(), 'こんにちは、お客様。何かお探しですか？', 'GPT', false, [''], true)
-  ];
-
+  List<ChatInChat> chatList = [];
   late AutoRefreshingAuthClient client;
-
   final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    chatList.add(ChatInChat(
+        DateTime.now(), widget.initialChat, 'GPT', false, [''], true));
 
     // Chat collection 연결
     makeChat();
 
     // Google API 연결 - speak - microphone 권한 획득
-    initAPI()
-        .then((value) => speakJapanese(initialChat, context, client).then((value) => recorder.init()));
+    initAPI().then((value) => speakJapanese(widget.initialChat, context, client)
+        .then((value) => recorder.init()));
   }
 
   Future makeChat() async {
@@ -50,7 +49,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: <String, String>{'Content-Type': "application/json"},
-        body: jsonEncode(<String, dynamic>{"problem": '친구와 대화'}));
+        body: jsonEncode(<String, dynamic>{"problem": widget.problem}));
 
     String responseBody = utf8.decode(response.bodyBytes);
     Map<String, dynamic> responseMap = json.decode(responseBody);

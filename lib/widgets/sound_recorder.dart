@@ -101,7 +101,7 @@ class SoundRecorder {
     request.fields['model'] = 'whisper-1';
     request.fields['temperature'] = '0';
     request.fields['prompt'] = prompt;
-    request.fields['language'] = 'en';
+    request.fields['language'] = 'ja';
 
     // Send the request and get the response
     http.StreamedResponse response = await request.send();

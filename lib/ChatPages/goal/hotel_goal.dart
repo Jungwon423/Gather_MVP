@@ -1,20 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gather_mvp/theme.dart';
 import 'package:googleapis_auth/auth_io.dart';
-import 'package:googleapis_auth/googleapis_auth.dart';
 
 import '../../Google_API_Credentials.dart';
+import '../../theme.dart';
 import '../../widgets/widgets___goal.dart';
 
-class InAirplaneGoal extends StatefulWidget {
-  const InAirplaneGoal({Key? key}) : super(key: key);
+class HotelGoal extends StatefulWidget {
+  const HotelGoal({Key? key}) : super(key: key);
 
   @override
-  State<InAirplaneGoal> createState() => _InAirplaneGoalState();
+  State<HotelGoal> createState() => _HotelGoalState();
 }
 
-class _InAirplaneGoalState extends State<InAirplaneGoal> {
+class _HotelGoalState extends State<HotelGoal> {
   late AutoRefreshingAuthClient client;
 
   @override
@@ -61,7 +59,7 @@ class _InAirplaneGoalState extends State<InAirplaneGoal> {
                       children: [
                         Center(
                             child: Text(
-                          '비행기에서 승무원과 대화',
+                          '호텔에서 대화',
                           style:
                               textTheme().displayLarge!.copyWith(fontSize: 30),
                         )),
@@ -73,7 +71,8 @@ class _InAirplaneGoalState extends State<InAirplaneGoal> {
                           style:
                               textTheme().displayMedium!.copyWith(fontSize: 20),
                         ),
-                        missionContainer('기내에서 승무원에게 필요한 것 요청하기'),
+                        missionContainer('체크인하기'),
+                        missionContainer('짐 맡겨달라고 요청하기'),
                         const SizedBox(
                           height: 5,
                         ),
@@ -83,31 +82,18 @@ class _InAirplaneGoalState extends State<InAirplaneGoal> {
                               textTheme().displayMedium!.copyWith(fontSize: 20),
                         ),
                         expressionContainer(
-                            '죄송하지만 물 좀 주시겠어요?',
-                            'すみませんが、お水をいただけますか?',
-                            '스미마셍가 오미즈오 이타다케마스카',
+                            '안녕하세요. (아침, 낮, 밤)',
+                            'おはようございます。 / こんにちは。 / こんばんは。',
+                            '오하요-고자이마스. / 콘니치와. / 콘방와.',
                             context,
                             client),
-                        expressionContainer(
-                            '실례지만 담요 좀 부탁드려도 될까요?',
-                            'すみませんが、毛布をお願いできますか?',
-                            '스미마셍가 모오후오 오네가이데키마스카',
-                            context,
-                            client),
-                        expressionContainer('감사합니다.', 'ありがとうございます',
-                            '아리가토오고자이마스', context, client),
-                        expressionContainer(
-                            '음료의 종류는 무엇이 있나요?',
-                            '飲み物の種類は何がありますか?',
-                            '노미모노노 슈루이와 나니가 아리마스카',
-                            context,
-                            client),
-                        expressionContainer(
-                            '비행기 도착 시각을 알려 주시겠습니까?',
-                            '飛行機の到着時刻を教えていただけますか?',
-                            '히코오키노 토오차쿠지코쿠오 오시에테 이타다케마스카',
-                            context,
-                            client),
+                        expressionContainer('체크인 부탁합니다.', 'チェックインお願いします。',
+                            '체크인 오네가이시마스.', context, client),
+                        expressionContainer('네.', 'はい', '하이.', context, client),
+                        expressionContainer('Wi-Fi는 있나요?', 'ワイパイはありますか?',
+                            '와이파이와 아리마스카?', context, client),
+                        expressionContainer('짐을 맡겨도 될까요?', '荷物を預けてもいいですか?',
+                            '니모츠오 아즈케테모 이이데스카?', context, client),
                       ],
                     ),
                   ),

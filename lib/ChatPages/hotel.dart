@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gather_mvp/widgets/Chat.dart';
+import 'package:gather_mvp/ChatPages/goal/hotel_goal.dart';
 
-import 'goal/inAirplane_goal.dart';
+import '../widgets/Chat.dart';
 
-class InAirplane extends StatelessWidget {
-  const InAirplane({Key? key}) : super(key: key);
+class Hotel extends StatelessWidget {
+  const Hotel({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +16,9 @@ class InAirplane extends StatelessWidget {
       child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Row(children: [
-            InAirplaneGoal(),
+            HotelGoal(),
             NewChatScreen(
-              initialChat: 'こんにちは、お客様。何かお探しですか？', problem: '승무원과 대화',
+              initialChat: 'いらっしゃいませ。予約されていますか?', problem: '호텔 체크인',
             )
           ])),
     );

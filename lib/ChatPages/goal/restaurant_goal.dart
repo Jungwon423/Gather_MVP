@@ -1,20 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gather_mvp/theme.dart';
 import 'package:googleapis_auth/auth_io.dart';
-import 'package:googleapis_auth/googleapis_auth.dart';
 
 import '../../Google_API_Credentials.dart';
+import '../../theme.dart';
 import '../../widgets/widgets___goal.dart';
 
-class InAirplaneGoal extends StatefulWidget {
-  const InAirplaneGoal({Key? key}) : super(key: key);
+class RestaurantGoal extends StatefulWidget {
+  const RestaurantGoal({Key? key}) : super(key: key);
 
   @override
-  State<InAirplaneGoal> createState() => _InAirplaneGoalState();
+  State<RestaurantGoal> createState() => _RestaurantGoalState();
 }
 
-class _InAirplaneGoalState extends State<InAirplaneGoal> {
+class _RestaurantGoalState extends State<RestaurantGoal> {
   late AutoRefreshingAuthClient client;
 
   @override
@@ -61,7 +59,7 @@ class _InAirplaneGoalState extends State<InAirplaneGoal> {
                       children: [
                         Center(
                             child: Text(
-                          '비행기에서 승무원과 대화',
+                          '식당에서 대화',
                           style:
                               textTheme().displayLarge!.copyWith(fontSize: 30),
                         )),
@@ -73,7 +71,8 @@ class _InAirplaneGoalState extends State<InAirplaneGoal> {
                           style:
                               textTheme().displayMedium!.copyWith(fontSize: 20),
                         ),
-                        missionContainer('기내에서 승무원에게 필요한 것 요청하기'),
+                        missionContainer('음식점에서 먹고 싶은 메뉴 주문하기'),
+                        missionContainer('물 등 필요한 거 있으면 요청하기'),
                         const SizedBox(
                           height: 5,
                         ),
@@ -83,31 +82,23 @@ class _InAirplaneGoalState extends State<InAirplaneGoal> {
                               textTheme().displayMedium!.copyWith(fontSize: 20),
                         ),
                         expressionContainer(
-                            '죄송하지만 물 좀 주시겠어요?',
-                            'すみませんが、お水をいただけますか?',
-                            '스미마셍가 오미즈오 이타다케마스카',
+                            '1명 / 2명 / 3명 / 4명 / 5명 / 6명 + 입니다.',
+                            '一人 / 二人 / 三人 / 四人 / 五人 / 六人 + です。',
+                            '히토리 / 후타리 / 산닝 / 요닝 / 고닝 / 로쿠닝 + 데스',
+                            context,
+                            client),
+                        expressionContainer('주문 좀 할게요~', '注文お願いします。',
+                            '츄-몬오네가이시마스', context, client),
+                        expressionContainer(
+                            '이거 주세요.', 'これください。', '코레쿠다사이', context, client),
+                        expressionContainer(
+                            '얼마나 기다려야 하나요?',
+                            'どれくらい待たないといけませんか。',
+                            '도레쿠라이 마타나이토 이케마센카',
                             context,
                             client),
                         expressionContainer(
-                            '실례지만 담요 좀 부탁드려도 될까요?',
-                            'すみませんが、毛布をお願いできますか?',
-                            '스미마셍가 모오후오 오네가이데키마스카',
-                            context,
-                            client),
-                        expressionContainer('감사합니다.', 'ありがとうございます',
-                            '아리가토오고자이마스', context, client),
-                        expressionContainer(
-                            '음료의 종류는 무엇이 있나요?',
-                            '飲み物の種類は何がありますか?',
-                            '노미모노노 슈루이와 나니가 아리마스카',
-                            context,
-                            client),
-                        expressionContainer(
-                            '비행기 도착 시각을 알려 주시겠습니까?',
-                            '飛行機の到着時刻を教えていただけますか?',
-                            '히코오키노 토오차쿠지코쿠오 오시에테 이타다케마스카',
-                            context,
-                            client),
+                            '물좀주세요.', 'お水ください。', '오미즈쿠다사이', context, client),
                       ],
                     ),
                   ),
