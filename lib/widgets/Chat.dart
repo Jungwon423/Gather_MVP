@@ -45,7 +45,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
   }
 
   Future makeChat() async {
-    String uri = 'https://ai.zigdeal.shop:443/japanese/makeChat';
+    String uri = 'https://ai.zigdeal.shop:443/english/makeChat';
 
     http.Response response = await http.post(Uri.parse(uri),
         headers: <String, String>{'Content-Type': "application/json"},
@@ -92,7 +92,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
   Future askGPT(String input) async {
     print('askGPT 시작');
-    String uri = 'https://ai.zigdeal.shop:443/japanese/askGPT';
+    String uri = 'https://ai.zigdeal.shop:443/english/askGPT';
     print(chatId);
     http.Response response = await http.post(Uri.parse(uri),
         headers: <String, String>{'Content-Type': "application/json"},
@@ -112,7 +112,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
     chatList.add(ChatInChat(DateTime.now(), result, 'GPT', false, [''], false));
     setState(() {});
 
-    await speakJapanese(result, context, client);
+    await speak(result, context, client);
   }
 
   @override

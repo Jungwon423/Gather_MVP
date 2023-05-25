@@ -81,19 +81,11 @@ class _ImmigrationGoalState extends State<ImmigrationGoal> {
                               textTheme().displayMedium!.copyWith(fontSize: 20),
                         ),
                         expressionContainer(
-                            '여행입니다.', '旅行です。', '료코-데스', context, client),
-                        expressionContainer('일 때문에 왔습니다.', '仕事で来ました。',
-                            '시고토데 키마시타', context, client),
+                            '여행입니다.', 'It\'s a trip.', context, client),
+                        expressionContainer('일 때문에 왔습니다.',
+                            'I\'m here for work.', context, client),
                         expressionContainer(
-                            '없습니다.', 'ありません。', '아리마셍', context, client),
-                        expressionContainer(
-                            '기념품입니다.', '記念品です。', '키넨힌데스', context, client),
-                        expressionContainer(
-                            '실례합니다. 난바역에 가고싶은데요.',
-                            'すみません、なんば駅に行きたいんですが',
-                            '스미마세 난바에키니 이키타인데스가',
-                            context,
-                            client),
+                            '기념품입니다.', 'This is a souvenir.', context, client),
                       ],
                     ),
                   ),

@@ -37,7 +37,7 @@ Container missionContainer(String text) {
   );
 }
 
-Container expressionContainer(String korean, String japanese, String pronounce,
+Container expressionContainer(String korean, String japanese,
     BuildContext context, AutoRefreshingAuthClient client) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -68,10 +68,6 @@ Container expressionContainer(String korean, String japanese, String pronounce,
       ]),
       Text(
         japanese,
-        style: textTheme().displayMedium,
-      ),
-      Text(
-        pronounce,
         style: textTheme().displayMedium,
       )
     ]),

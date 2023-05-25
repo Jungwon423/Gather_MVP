@@ -67,7 +67,7 @@ class _ChatBubbleInChatByMeState extends State<ChatBubbleInChatByMe> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         listenButton(() {
-                          speakJapanese(widget.message, context, client);
+                          speak(widget.message, context, client);
                         }),
                         translateButton(() {
                           setState(() {

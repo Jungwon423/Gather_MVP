@@ -18,7 +18,7 @@ class InAirplane extends StatelessWidget {
           body: Row(children: [
             InAirplaneGoal(),
             NewChatScreen(
-              initialChat: 'こんにちは、お客様。何かお探しですか？', problem: '승무원과 대화',
+              initialChat: 'Excuse me, can I help you?', problem: '승무원과 대화',
             )
           ])),
     );

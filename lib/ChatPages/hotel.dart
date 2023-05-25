@@ -18,7 +18,9 @@ class Hotel extends StatelessWidget {
           body: Row(children: [
             HotelGoal(),
             NewChatScreen(
-              initialChat: 'いらっしゃいませ。予約されていますか?', problem: '호텔 체크인',
+              initialChat:
+                  'Hello and welcome to The Ritz-Carlton New York. How may I assist you today?',
+              problem: '호텔 체크인',
             )
           ])),
     );

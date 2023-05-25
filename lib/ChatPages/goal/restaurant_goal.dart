@@ -84,21 +84,16 @@ class _RestaurantGoalState extends State<RestaurantGoal> {
                         expressionContainer(
                             '1명 / 2명 / 3명 / 4명 / 5명 / 6명 + 입니다.',
                             '一人 / 二人 / 三人 / 四人 / 五人 / 六人 + です。',
-                            '히토리 / 후타리 / 산닝 / 요닝 / 고닝 / 로쿠닝 + 데스',
-                            context,
-                            client),
-                        expressionContainer('주문 좀 할게요~', '注文お願いします。',
-                            '츄-몬오네가이시마스', context, client),
-                        expressionContainer(
-                            '이거 주세요.', 'これください。', '코레쿠다사이', context, client),
-                        expressionContainer(
-                            '얼마나 기다려야 하나요?',
-                            'どれくらい待たないといけませんか。',
-                            '도레쿠라이 마타나이토 이케마센카',
                             context,
                             client),
                         expressionContainer(
-                            '물좀주세요.', 'お水ください。', '오미즈쿠다사이', context, client),
+                            '주문 좀 할게요~', '注文お願いします。', context, client),
+                        expressionContainer(
+                            '이거 주세요.', 'これください。', context, client),
+                        expressionContainer('얼마나 기다려야 하나요?',
+                            'どれくらい待たないといけませんか。', context, client),
+                        expressionContainer(
+                            '물좀주세요.', 'お水ください。', context, client),
                       ],
                     ),
                   ),

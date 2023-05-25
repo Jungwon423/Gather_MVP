@@ -18,7 +18,9 @@ class Restaurant extends StatelessWidget {
           body: Row(children: [
             RestaurantGoal(),
             NewChatScreen(
-              initialChat: 'TODO', problem: 'TODO', // TODO
+              initialChat:
+                  'Hello, welcome to our restaurant. How may I assist you today?',
+              problem: '일식집 주문', // TODO
             )
           ])),
     );

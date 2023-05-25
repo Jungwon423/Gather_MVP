@@ -18,7 +18,9 @@ class Immigration extends StatelessWidget {
           body: Row(children: [
             ImmigrationGoal(),
             NewChatScreen(
-              initialChat: 'こんにちは、ようこそ日本へ。何の目的で来日されましたか？', problem: '입국 심사',
+              initialChat:
+                  'Hello, welcome to the United States. May I see your passport and travel documents, please?',
+              problem: '입국 심사',
             )
           ])),
     );
