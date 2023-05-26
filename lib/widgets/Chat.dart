@@ -13,7 +13,7 @@ import 'messages_in_chat.dart';
 class NewChatScreen extends StatefulWidget {
   NewChatScreen({super.key, required this.initialChat, required this.problem});
 
-  String initialChat;
+  List<String> initialChat;
   String problem;
 
   @override
@@ -33,14 +33,23 @@ class _NewChatScreenState extends State<NewChatScreen> {
   @override
   void initState() {
     super.initState();
-    chatList.add(ChatInChat(
-        DateTime.now(), widget.initialChat, 'GPT', false, [''], true));
+
+    if (widget.initialChat.length == 1) {
+      chatList.add(ChatInChat(
+          DateTime.now(), widget.initialChat[0], 'GPT', false, [''], true));
+    } else {
+      for (int i = 0; i < widget.initialChat.length; i++) {
+        chatList.add(ChatInChat(DateTime.now(), widget.initialChat[i],
+            i % 2 == 0 ? 'me' : 'GPT', false, [''], false));
+      }
+    }
 
     // Chat collection 연결
     makeChat();
 
     // Google API 연결 - speak - microphone 권한 획득
-    initAPI().then((value) => speakJapanese(widget.initialChat, context, client)
+    initAPI().then((value) => speakJapanese(
+            widget.initialChat[widget.initialChat.length - 1], context, client)
         .then((value) => recorder.init()));
   }
 

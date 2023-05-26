@@ -1,18 +1,30 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
 import '../../Google_API_Credentials.dart';
+import '../../models/expression.dart';
 import '../../theme.dart';
 import '../../widgets/widgets___goal.dart';
 
-class HotelGoal extends StatefulWidget {
-  const HotelGoal({Key? key}) : super(key: key);
+class Goal extends StatefulWidget {
+  Goal(
+      {Key? key,
+      required this.situation,
+      required this.missionList,
+      required this.expressionList})
+      : super(key: key);
+
+  String situation;
+  List<String> missionList;
+  List<Expression> expressionList;
 
   @override
-  State<HotelGoal> createState() => _HotelGoalState();
+  State<Goal> createState() => _GoalState();
 }
 
-class _HotelGoalState extends State<HotelGoal> {
+class _GoalState extends State<Goal> {
   late AutoRefreshingAuthClient client;
 
   @override
@@ -71,8 +83,8 @@ class _HotelGoalState extends State<HotelGoal> {
                           style:
                               textTheme().displayMedium!.copyWith(fontSize: 20),
                         ),
-                        missionContainer('체크인하기'),
-                        missionContainer('짐 맡겨달라고 요청하기'),
+                        for (int i = 0; i < widget.missionList.length; i++)
+                          missionContainer(widget.missionList[i]),
                         const SizedBox(
                           height: 5,
                         ),
@@ -81,18 +93,12 @@ class _HotelGoalState extends State<HotelGoal> {
                           style:
                               textTheme().displayMedium!.copyWith(fontSize: 20),
                         ),
-                        expressionContainer(
-                            '안녕하세요. (아침, 낮, 밤)',
-                            'Good morning. / Good afternoon. / Good evening.',
-                            context,
-                            client),
-                        expressionContainer(
-                            '체크인 부탁합니다.', 'check in please.', context, client),
-                        expressionContainer('네.', 'yes', context, client),
-                        expressionContainer(
-                            'Wi-Fi는 있나요?', 'Is there Wi-Fi?', context, client),
-                        expressionContainer('짐을 맡겨도 될까요?',
-                            'Can I leave my luggage?', context, client),
+                        for (int i = 0; i < widget.expressionList.length; i++)
+                          expressionContainer(
+                              widget.expressionList[i].korean,
+                              widget.expressionList[i].english,
+                              context,
+                              client),
                       ],
                     ),
                   ),

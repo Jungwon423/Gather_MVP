@@ -10,6 +10,6 @@ final Map<String, WidgetBuilder> route = {
   "/home": (context) => HomePage(),
   '/inAirplane': (context) => InAirplane(),
   '/immigration': (context) => Immigration(),
-  '/hotel': (context) => Hotel(),
+  '/hotel': (context) => BlueBottle(),
   '/restaurant': (context) => Restaurant()
 };
