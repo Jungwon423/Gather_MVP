@@ -71,7 +71,7 @@ class _GoalState extends State<Goal> {
                       children: [
                         Center(
                             child: Text(
-                          '호텔에서 대화',
+                          widget.situation,
                           style:
                               textTheme().displayLarge!.copyWith(fontSize: 30),
                         )),
