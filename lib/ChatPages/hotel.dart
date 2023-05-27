@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gather_mvp/ChatPages/widgets/PageFormat.dart';
 import 'package:gather_mvp/models/expression.dart';
 
-class BlueBottle extends StatelessWidget {
-  const BlueBottle({Key? key}) : super(key: key);
+class Hotel extends StatelessWidget {
+  const Hotel({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
