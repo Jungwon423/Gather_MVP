@@ -70,8 +70,8 @@ class _GoalState extends State<Goal> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Center(
-                            child: Text(
-                          '호텔에서 대화',
+                        child: Text(
+                          widget.situation,
                           style:
                               textTheme().displayLarge!.copyWith(fontSize: 30),
                         )),
