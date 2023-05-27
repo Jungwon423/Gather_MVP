@@ -31,11 +31,14 @@ class ProviderChat with ChangeNotifier {
   ];
   int _voiceIndex = 0;
 
-  String randomVoice() {
+  String get randomVoice {
     String voice;
 
     _voiceIndex = Random().nextInt(_voices.length);
+    print(_voiceIndex);
     voice = _voices[_voiceIndex];
+
+    print(voice);
 
     return voice;
   }

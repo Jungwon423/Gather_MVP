@@ -18,12 +18,14 @@ import 'package:http/http.dart' as http;
 // TTS
 Future speak(String text, BuildContext context, AutoRefreshingAuthClient client,
     String voiceType) async {
+  String randomVoice = context.read<ProviderChat>().randomVoice.toString();
+  print(randomVoice);
   try {
     final input = SynthesisInput(text: text);
     final voice = VoiceSelectionParams(
         languageCode: 'en-US',
         name: voiceType == ''
-            ? context.read<ProviderChat>().randomVoice.toString()
+            ? randomVoice
             : voiceType);
     final audioConfig = AudioConfig(audioEncoding: "MP3");
 

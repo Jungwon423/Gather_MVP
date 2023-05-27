@@ -63,7 +63,7 @@ Container expressionContainer(String korean, String japanese,
         ),
         smallListenButton(
           () {
-            speakJapanese(japanese, context, client);
+            speak(japanese, context, client, '');
           },
         )
       ]),
