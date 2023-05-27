@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gather_mvp/routes.dart';
 import 'package:provider/provider.dart';
 
@@ -16,14 +17,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '커리비',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      initialRoute: "/inAirplane",
-      routes: route,
-    );
+    return ScreenUtilInit(
+        designSize: Size(1456, 1284),
+        builder: (context, child) => MaterialApp(
+              title: '커리비',
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              initialRoute: "/home",
+              routes: route,
+            ));
   }
 }

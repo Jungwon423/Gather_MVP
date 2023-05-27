@@ -53,6 +53,7 @@ dependencies:
   permission_handler_web: ^0.0.2 # web에서 권한 획득
   universal_io: ^2.2.0
   microphone: ^0.1.0
+  flutter_screenutil: ^5.7.0
 
 
 dev_dependencies:

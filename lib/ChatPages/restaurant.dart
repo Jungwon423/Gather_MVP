@@ -31,7 +31,7 @@ class Restaurant extends StatelessWidget {
       initialChat: [
         'Hello, welcome to our restaurant. How may I assist you today?'
       ],
-      problem: '일식집 주문',
+      problem: '일식집 주문', voice: 'en-US-Wavenet-J',
     );
   }
 }

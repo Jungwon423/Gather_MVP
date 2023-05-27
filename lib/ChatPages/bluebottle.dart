@@ -26,6 +26,6 @@ class _BluebottleState extends State<Bluebottle> {
           Expression('테이크아웃으로 부탁드립니다.', 'Can I get my order to go, please?'),
           Expression('감사합니다! 좋은 하루 되세요!', 'Thank you! Have a great day!')],
         initialChat: ['Hello, welcome to Blue Bottle Coffee. What can I get for you today?'],
-        problem: '블루보틀');
+        problem: '블루보틀', voice: 'en-US-Wavenet-F',);
   }
 }

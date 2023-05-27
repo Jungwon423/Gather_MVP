@@ -26,6 +26,6 @@ class _StarbucksState extends State<Starbucks> {
           Expression('테이크아웃으로 부탁드립니다.', 'Can I get that to go, please?'),
           Expression('감사합니다, 좋은 하루 되세요!', 'Thank you, have a great day!')],
         initialChat: ['Hello, welcome to Starbucks! What can I get for you today?'],
-        problem: '스타벅스');
+        problem: '스타벅스', voice: 'en-US-Standard-F',);
   }
 }

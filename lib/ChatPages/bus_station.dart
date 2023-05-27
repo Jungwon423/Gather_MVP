@@ -33,6 +33,6 @@ class BusStation extends StatelessWidget {
           'Excuse me, could you help me, please?',
           'Sure, what do you need help with?'
         ],
-        problem: '버스 정류장 앞');
+        problem: '버스 정류장 앞', voice: 'en-US-Wavenet-I',);
   }
 }

@@ -26,6 +26,6 @@ class _FoodTruckIceCreamState extends State<FoodTruckIceCream> {
           Expression('비건 아이스크림이 있나요?', 'Do you have vegan ice cream options?'),
           Expression('결제 방법은 어떻게 되나요?', 'What are the payment options?')],
         initialChat: ['Hello! What flavor would you like to have today?'],
-        problem: '아이스크림 푸드트럭');
+        problem: '아이스크림 푸드트럭', voice: 'en-US-Wavenet-B',);
   }
 }

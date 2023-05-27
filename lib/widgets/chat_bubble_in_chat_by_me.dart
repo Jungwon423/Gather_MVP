@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
 import '../../Google_API_Credentials.dart';
@@ -40,7 +41,7 @@ class _ChatBubbleInChatByMeState extends State<ChatBubbleInChatByMe> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: screenWidth*0.05),
+      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: screenWidth*0.05),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +60,7 @@ class _ChatBubbleInChatByMeState extends State<ChatBubbleInChatByMe> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                    EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -67,7 +68,7 @@ class _ChatBubbleInChatByMeState extends State<ChatBubbleInChatByMe> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         listenButton(() {
-                          speak(widget.message, context, client);
+                          speak(widget.message, context, client, 'en-US-Neural2-H');
                         }),
                         translateButton(() {
                           setState(() {
@@ -76,8 +77,8 @@ class _ChatBubbleInChatByMeState extends State<ChatBubbleInChatByMe> {
                         }, translate),
                       ],
                     ),
-                    const SizedBox(
-                      height: 15,
+                    SizedBox(
+                      height: 15.h,
                     ),
                     Text(
                       widget.message,
@@ -85,8 +86,8 @@ class _ChatBubbleInChatByMeState extends State<ChatBubbleInChatByMe> {
                           .displayLarge!
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(
-                      height: 20,
+                    SizedBox(
+                      height: 20.h,
                     ),
                     if (translate) translateText(widget.message)
                   ],

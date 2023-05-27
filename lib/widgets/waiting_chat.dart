@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 
 class WaitingChatBubble extends StatelessWidget {
@@ -16,7 +17,7 @@ class WaitingChatBubble extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Container(
-            height: 50,
+            height: 50.h,
             constraints:
                 BoxConstraints(maxWidth: MediaQuery.of(context).size.width / 4.5),
             decoration: BoxDecoration(
@@ -25,8 +26,8 @@ class WaitingChatBubble extends StatelessWidget {
                 Radius.circular(12),
               ),
             ),
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-            margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
+            margin: EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w),
             child: JumpingDots(
               color: Colors.amber,
               radius: 6,

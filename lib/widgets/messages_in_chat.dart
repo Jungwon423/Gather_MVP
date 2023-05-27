@@ -10,9 +10,10 @@ import 'chat_bubble_in_chat_by_me.dart';
 class MessagesInChat extends StatelessWidget {
   List<ChatInChat> chatList;
   ScrollController scrollController;
+  String voice;
 
   MessagesInChat(
-      {Key? key, required this.chatList, required this.scrollController})
+      {Key? key, required this.chatList, required this.scrollController, required this.voice})
       : super(key: key);
 
   @override
@@ -30,7 +31,7 @@ class MessagesInChat extends StatelessWidget {
           return WaitingChatBubble(chatInChat.sender == 'me');
         } else if (chatInChat.sender == 'GPT') {
           return ChatBubbleInChatByGPT(
-              chatInChat.chat, chatInChat.helpText, chatInChat.tipExist);
+              chatInChat.chat, chatInChat.helpText, chatInChat.tipExist, voice: voice,);
         } else {
           return ChatBubbleInChatByMe(
               chatInChat.chat, chatInChat.helpText, chatInChat.tipExist);

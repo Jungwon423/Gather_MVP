@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData theme() {
@@ -10,35 +11,35 @@ ThemeData theme() {
 }
 
 TextTheme textTheme() {
-  return const TextTheme(
+  return TextTheme(
     displayLarge: TextStyle(
         fontFamily: 'NotoSansKR',
-        fontSize: 15,
+        fontSize: 15.sp,
         color: Colors.black,
         fontWeight: FontWeight.w900),
     displayMedium: TextStyle(
         fontFamily: 'NotoSansKR',
-        fontSize: 15,
+        fontSize: 15.sp,
         color: Colors.black,
         fontWeight: FontWeight.w700),
     displaySmall: TextStyle(
         fontFamily: 'NotoSansKR',
-        fontSize: 15,
+        fontSize: 15.sp,
         color: Colors.black,
         fontWeight: FontWeight.w500),
     headlineLarge: TextStyle(
         fontFamily: 'NotoSansKR',
-        fontSize: 15,
+        fontSize: 15.sp,
         color: Colors.black,
         fontWeight: FontWeight.w400),
     headlineMedium: TextStyle(
         fontFamily: 'NotoSansKR',
-        fontSize: 15,
+        fontSize: 15.sp,
         color: Colors.black,
         fontWeight: FontWeight.w300),
     headlineSmall: TextStyle(
         fontFamily: 'NotoSansKR',
-        fontSize: 15,
+        fontSize: 15.sp,
         color: Colors.black,
         fontWeight: FontWeight.w100),
   );

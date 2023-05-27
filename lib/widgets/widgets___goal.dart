@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gather_mvp/widgets/widgets___chat_bubble.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
@@ -6,8 +7,8 @@ import '../theme.dart';
 
 Container circleDot(Color color) {
   return Container(
-    width: 12,
-    height: 12,
+    width: 12.w,
+    height: 12.h,
     decoration: BoxDecoration(
       shape: BoxShape.circle,
       color: color,
@@ -17,7 +18,7 @@ Container circleDot(Color color) {
 
 Container missionContainer(String text) {
   return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
     decoration: const BoxDecoration(
       color: Colors.transparent,
       borderRadius: BorderRadius.all(
@@ -26,8 +27,8 @@ Container missionContainer(String text) {
     ),
     child: Row(children: [
       circleDot(Colors.amber),
-      const SizedBox(
-        width: 10,
+      SizedBox(
+        width: 10.w,
       ),
       Text(
         text,
@@ -40,7 +41,7 @@ Container missionContainer(String text) {
 Container expressionContainer(String korean, String japanese,
     BuildContext context, AutoRefreshingAuthClient client) {
   return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
     decoration: const BoxDecoration(
       color: Colors.transparent,
       borderRadius: BorderRadius.all(
@@ -50,15 +51,15 @@ Container expressionContainer(String korean, String japanese,
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(children: [
         circleDot(Colors.black),
-        const SizedBox(
-          width: 10,
+        SizedBox(
+          width: 10.w,
         ),
         Text(
           korean,
           style: textTheme().displayMedium,
         ),
-        const SizedBox(
-          width: 5,
+        SizedBox(
+          width: 5.w,
         ),
         smallListenButton(
           () {

@@ -31,6 +31,6 @@ class FoodtruckHotdog extends StatelessWidget {
               '제일 인기 있는 핫도그는 어느 것인가요?', 'Which hot dog is the most popular?')
         ],
         initialChat: ['Welcome! How can I help you with your order?'],
-        problem: '핫도그 푸드트럭');
+        problem: '핫도그 푸드트럭', voice: 'en-US-Wavenet-G',);
   }
 }

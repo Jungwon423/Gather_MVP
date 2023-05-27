@@ -29,7 +29,7 @@ class InAirplane extends StatelessWidget {
         Expression('화장실이 어디에 있나요?', 'Where is the restroom?')
       ],
       initialChat: ['Excuse me, how can I help you?'],
-      problem: '승무원과 대화',
+      problem: '승무원과 대화', voice: 'en-US-Standard-J',
     );
   }
 }

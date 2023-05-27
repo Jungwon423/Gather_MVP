@@ -30,6 +30,6 @@ class AskForNumber extends StatelessWidget {
               'I really enjoyed talking to you today. Can I have your contact information?'),
         ],
         initialChat: ['Thank you for the compliment! I really appreciate it.'],
-        problem: '길가던 여자 번호 따기');
+        problem: '길가던 여자 번호 따기', voice: 'en-US-Wavenet-H',);
   }
 }

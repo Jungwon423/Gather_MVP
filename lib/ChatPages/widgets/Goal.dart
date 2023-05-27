@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
 import '../../Google_API_Credentials.dart';
@@ -41,12 +42,16 @@ class _GoalState extends State<Goal> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenheight = MediaQuery.of(context).size.height;
+    print(screenWidth);
+    print(screenheight);
     return FutureBuilder(
       future: initAPI(),
       builder: (context, AsyncSnapshot snapshot) {
         if (!snapshot.hasData) {
           return SizedBox(
-              width: screenWidth / 2, child: CircularProgressIndicator());
+              // width: screenWidth / 2,
+              child: Center(child: CircularProgressIndicator()));
         } else {
           return SizedBox(
             width: screenWidth / 2,
@@ -57,6 +62,7 @@ class _GoalState extends State<Goal> {
                   padding:
                       EdgeInsets.symmetric(horizontal: screenWidth * 0.055),
                   child: Container(
+                    height: screenheight > screenWidth * 2119 / 3277 ? (screenWidth * 2119 / 3277)*0.95:screenheight,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 20),
                     decoration: BoxDecoration(
@@ -65,41 +71,43 @@ class _GoalState extends State<Goal> {
                         Radius.circular(12),
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Center(
-                            child: Text(
-                          widget.situation,
-                          style:
-                              textTheme().displayLarge!.copyWith(fontSize: 30),
-                        )),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Text(
-                          '미션',
-                          style:
-                              textTheme().displayMedium!.copyWith(fontSize: 20),
-                        ),
-                        for (int i = 0; i < widget.missionList.length; i++)
-                          missionContainer(widget.missionList[i]),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '핵심 표현',
-                          style:
-                              textTheme().displayMedium!.copyWith(fontSize: 20),
-                        ),
-                        for (int i = 0; i < widget.expressionList.length; i++)
-                          expressionContainer(
-                              widget.expressionList[i].korean,
-                              widget.expressionList[i].english,
-                              context,
-                              client),
-                      ],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Center(
+                              child: Text(
+                            widget.situation,
+                            style:
+                                textTheme().displayLarge!.copyWith(fontSize: 30.sp),
+                          )),
+                          SizedBox(
+                            height: 30.h,
+                          ),
+                          Text(
+                            '미션',
+                            style:
+                                textTheme().displayMedium!.copyWith(fontSize: 20.h),
+                          ),
+                          for (int i = 0; i < widget.missionList.length; i++)
+                            missionContainer(widget.missionList[i]),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '핵심 표현',
+                            style:
+                                textTheme().displayMedium!.copyWith(fontSize: 20.h),
+                          ),
+                          for (int i = 0; i < widget.expressionList.length; i++)
+                            expressionContainer(
+                                widget.expressionList[i].korean,
+                                widget.expressionList[i].english,
+                                context,
+                                client),
+                        ],
+                      ),
                     ),
                   ),
                 ),

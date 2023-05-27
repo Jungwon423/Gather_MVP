@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
 import '../../Google_API_Credentials.dart';
@@ -8,13 +9,14 @@ import '../../theme.dart';
 import 'widgets___chat_bubble.dart';
 
 class ChatBubbleInChatByGPT extends StatefulWidget {
-  const ChatBubbleInChatByGPT(this.message, this.helpText, this.tipExist,
-      {Key? key})
+  ChatBubbleInChatByGPT(this.message, this.helpText, this.tipExist,
+      {Key? key, required this.voice})
       : super(key: key);
 
   final String message;
   final List<String> helpText;
   final bool tipExist;
+  String voice;
 
   @override
   State<ChatBubbleInChatByGPT> createState() => _ChatBubbleInChatByGPTState();
@@ -43,7 +45,8 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: screenWidth*0.05),
+      padding:
+          EdgeInsets.symmetric(vertical: 8.h, horizontal: screenWidth * 0.05),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +65,7 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                    EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -70,7 +73,7 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         listenButton(() {
-                          speak(widget.message, context, client);
+                          speak(widget.message, context, client, widget.voice);
                         }),
                         translateButton(() {
                           setState(() {
@@ -79,8 +82,8 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
                         }, translate),
                       ],
                     ),
-                    const SizedBox(
-                      height: 15,
+                    SizedBox(
+                      height: 15.h,
                     ),
                     Text(
                       widget.message,
@@ -88,8 +91,8 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
                           .displayLarge!
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(
-                      height: 20,
+                    SizedBox(
+                      height: 20.h,
                     ),
                     if (translate) translateText(widget.message)
                   ],

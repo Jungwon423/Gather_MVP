@@ -35,6 +35,6 @@ class AskCafe extends StatelessWidget {
           'Excuse me, could you help me, please?',
           'Sure, what do you need help with?'
         ],
-        problem: '행인에게 카페 위치 묻기');
+        problem: '행인에게 카페 위치 묻기', voice: 'en-US-Wavenet-H',);
   }
 }

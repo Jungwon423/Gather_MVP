@@ -11,7 +11,8 @@ class PageFormat extends StatelessWidget {
       required this.missionList,
       required this.expressionList,
       required this.initialChat,
-      required this.problem})
+      required this.problem,
+      required this.voice})
       : super(key: key);
 
   String situation;
@@ -19,6 +20,7 @@ class PageFormat extends StatelessWidget {
   List<Expression> expressionList;
   List<String> initialChat;
   String problem;
+  String voice;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class PageFormat extends StatelessWidget {
             NewChatScreen(
               initialChat: initialChat,
               problem: problem,
+              voice: voice,
             )
           ])),
     );

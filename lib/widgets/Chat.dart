@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gather_mvp/widgets/sound_recorder.dart';
 import 'package:gather_mvp/widgets/widgets___chat_bubble.dart';
 import 'package:googleapis_auth/auth_io.dart';
@@ -11,10 +12,11 @@ import '../models/chat_in_chat.dart';
 import 'messages_in_chat.dart';
 
 class NewChatScreen extends StatefulWidget {
-  NewChatScreen({super.key, required this.initialChat, required this.problem});
+  NewChatScreen({super.key, required this.initialChat, required this.problem, required this.voice});
 
   List<String> initialChat;
   String problem;
+  String voice;
 
   @override
   State<NewChatScreen> createState() => _NewChatScreenState();
@@ -48,8 +50,8 @@ class _NewChatScreenState extends State<NewChatScreen> {
     makeChat();
 
     // Google API 연결 - speak - microphone 권한 획득
-    initAPI().then((value) => speakJapanese(
-            widget.initialChat[widget.initialChat.length - 1], context, client)
+    initAPI().then((value) => speak(
+            widget.initialChat[widget.initialChat.length - 1], context, client, widget.voice)
         .then((value) => recorder.init()));
   }
 
@@ -121,7 +123,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
     chatList.add(ChatInChat(DateTime.now(), result, 'GPT', false, [''], false));
     setState(() {});
 
-    await speak(result, context, client);
+    await speak(result, context, client, widget.voice);
   }
 
   @override
@@ -143,7 +145,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
         floatingActionButton: AvatarGlow(
           animate: recorder.isRecording,
           glowColor: Colors.red,
-          endRadius: 75.0,
+          endRadius: 75.0.h,
           duration: const Duration(milliseconds: 1000),
           repeatPauseDuration: const Duration(milliseconds: 100),
           repeat: true,
@@ -165,11 +167,11 @@ class _NewChatScreenState extends State<NewChatScreen> {
               }
             },
             child: SizedBox(
-              height: 75,
-              width: 75,
+              height: 75.h,
+              width: 75.w,
               child: Icon(
                 recorder.isRecording ? Icons.stop : Icons.mic,
-                size: 50,
+                size: 50.sp,
                 color: Colors.white,
               ),
             ),
@@ -189,6 +191,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
                 child: MessagesInChat(
                   chatList: chatList,
                   scrollController: scrollController,
+                  voice: widget.voice,
                 ),
               ),
               if (screenHeight > screenWidth * 2119 / 3277)

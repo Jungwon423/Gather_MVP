@@ -28,6 +28,6 @@ class Immigration extends StatelessWidget {
         ],
         initialChat:
             ['Hello, welcome to the United States. May I see your passport and travel documents, please?'],
-        problem: '입국 심사');
+        problem: '입국 심사', voice: 'en-US-Studio-O',);
   }
 }

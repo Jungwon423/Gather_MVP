@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class ProviderChat with ChangeNotifier {
-
   // TTS 목소리
   final List<String> _voices = [
     "en-US-Neural2-A",
@@ -31,13 +30,13 @@ class ProviderChat with ChangeNotifier {
     "en-US-Standard-J"
   ];
   int _voiceIndex = 0;
-  String _randomVoice = "en-US-Neural2-A";
-  String get randomVoice => _randomVoice;
 
+  String randomVoice() {
+    String voice;
 
-  void updateRandomVoice() {
     _voiceIndex = Random().nextInt(_voices.length);
-    _randomVoice = _voices[_voiceIndex];
-    notifyListeners();
+    voice = _voices[_voiceIndex];
+
+    return voice;
   }
 }

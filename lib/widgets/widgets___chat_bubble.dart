@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:googleapis/texttospeech/v1.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:jumping_dot/jumping_dot.dart';
@@ -15,12 +16,15 @@ import 'dart:html' as html;
 import 'package:http/http.dart' as http;
 
 // TTS
-Future speak(
-    String text, BuildContext context, AutoRefreshingAuthClient client) async {
+Future speak(String text, BuildContext context, AutoRefreshingAuthClient client,
+    String voiceType) async {
   try {
     final input = SynthesisInput(text: text);
     final voice = VoiceSelectionParams(
-        languageCode: 'en-US', name: context.read<ProviderChat>().randomVoice);
+        languageCode: 'en-US',
+        name: voiceType == ''
+            ? context.read<ProviderChat>().randomVoice.toString()
+            : voiceType);
     final audioConfig = AudioConfig(audioEncoding: "MP3");
 
     final synthesizeSpeechRequest = SynthesizeSpeechRequest(
@@ -57,7 +61,7 @@ Future speakJapanese(
         audioConfig: audioConfig, input: input, voice: voice);
 
     SynthesizeSpeechResponse synthesizeSpeechResponse =
-    await TexttospeechApi(client).text.synthesize(synthesizeSpeechRequest);
+        await TexttospeechApi(client).text.synthesize(synthesizeSpeechRequest);
 
     List<int> audioContent = synthesizeSpeechResponse.audioContentAsBytes;
 
@@ -77,7 +81,6 @@ Future speakJapanese(
 // 번역 API
 Future translateAPI(String text) async {
   String translatedText = 'TODO : 백엔드로 translate API 만들기';
-
 
   String uri = 'https://ai.zigdeal.shop:443/japanese/translate';
 
@@ -102,9 +105,9 @@ FutureBuilder translateText(String text) {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData == false) {
           // ignore: prefer_const_constructors
-          return Column(children: const [
+          return Column(children: [
             SizedBox(
-              height: 30,
+              height: 30.h,
             ),
             Center(
               child: CircularProgressIndicator(
@@ -116,8 +119,8 @@ FutureBuilder translateText(String text) {
           return const Text("에러 발생");
         } else {
           return Column(children: [
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              height: 10.h,
             ),
             Text(
               snapshot.data,
@@ -150,18 +153,18 @@ ElevatedButton foldButton(VoidCallback onPressed, bool fold) {
 // 스피커 버튼
 ConstrainedBox listenButton(VoidCallback onPressed) {
   return ConstrainedBox(
-    constraints: const BoxConstraints.tightFor(width: 40),
+    constraints: BoxConstraints.tightFor(width: 40.w),
     child: ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-          fixedSize: const Size(40, 40),
+          fixedSize: Size(40.w, 40.w),
           padding: EdgeInsets.zero,
           shape: const CircleBorder(),
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.grey[200]),
-      child: const Icon(
+      child: Icon(
         Icons.volume_up_outlined,
-        size: 30,
+        size: 30.sp,
         color: Colors.black,
       ),
     ),
@@ -171,7 +174,7 @@ ConstrainedBox listenButton(VoidCallback onPressed) {
 // 작은 스피커 버튼
 ConstrainedBox smallListenButton(VoidCallback onPressed) {
   return ConstrainedBox(
-    constraints: const BoxConstraints.tightFor(width: 40),
+    constraints: BoxConstraints.tightFor(width: 40.w),
     child: ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
@@ -180,9 +183,9 @@ ConstrainedBox smallListenButton(VoidCallback onPressed) {
           shape: const CircleBorder(),
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.grey[200]),
-      child: const Icon(
+      child: Icon(
         Icons.volume_up_outlined,
-        size: 30,
+        size: 30.sp,
         color: Colors.black,
       ),
     ),
@@ -194,7 +197,7 @@ ElevatedButton translateButton(VoidCallback onPressed, bool translate) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
         elevation: 3,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
         backgroundColor: Colors.grey[200],
         surfaceTintColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
@@ -202,16 +205,16 @@ ElevatedButton translateButton(VoidCallback onPressed, bool translate) {
     child: Row(mainAxisSize: MainAxisSize.min, children: [
       Image.asset(
         'assets/images/translate.png',
-        width: 30,
+        width: 30.w,
       ),
-      const SizedBox(
-        width: 10,
+      SizedBox(
+        width: 10.w,
       ),
       Text(
         translate ? '번역 닫기' : '번역하기',
         style: textTheme()
             .displayLarge!
-            .copyWith(fontSize: 15, fontWeight: FontWeight.w700),
+            .copyWith(fontSize: 15.sp, fontWeight: FontWeight.w700),
       )
     ]),
   );
@@ -224,13 +227,13 @@ Column tipColumn(String tipSentence, String tipExplain) {
     children: [
       const Text(''),
       Text('🧑‍🏫 선생님이 교정해준 문장',
-          style: textTheme().displayMedium!.copyWith(fontSize: 16.5)),
+          style: textTheme().displayMedium!.copyWith(fontSize: 16.5.sp)),
       const Text(''),
       Text(tipSentence,
           style: textTheme().displaySmall!.copyWith(color: Colors.black)),
       const Text(''),
       Text("👆 TIP",
-          style: textTheme().displayMedium!.copyWith(fontSize: 16.5)),
+          style: textTheme().displayMedium!.copyWith(fontSize: 16.5.sp)),
       const Text(''),
       if (tipExplain != '')
         Text(tipExplain,
@@ -239,7 +242,7 @@ Column tipColumn(String tipSentence, String tipExplain) {
         Center(
           child: JumpingDots(
             color: Colors.amber,
-            radius: 6,
+            radius: 6.sp,
             numberOfDots: 3,
             animationDuration: Duration(milliseconds: 200),
           ),

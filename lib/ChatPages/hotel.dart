@@ -32,6 +32,6 @@ class Hotel extends StatelessWidget {
         ],
         initialChat:
             ['Hello and welcome to The Ritz-Carlton New York. How may I assist you today?'],
-        problem: '호텔 체크인');
+        problem: '호텔 체크인', voice: 'en-US-Studio-M',);
   }
 }
