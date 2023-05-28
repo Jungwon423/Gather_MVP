@@ -180,7 +180,7 @@ ConstrainedBox smallListenButton(VoidCallback onPressed) {
     child: ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-          fixedSize: const Size(30, 30),
+          fixedSize: Size(30.sp, 30.sp),
           padding: EdgeInsets.zero,
           shape: const CircleBorder(),
           backgroundColor: Colors.white,
