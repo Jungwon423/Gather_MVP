@@ -84,7 +84,7 @@ Future speakJapanese(
 Future translateAPI(String text) async {
   String translatedText = 'TODO : 백엔드로 translate API 만들기';
 
-  String uri = 'https://ai.zigdeal.shop:443/japanese/translate';
+  String uri = 'https://ai.zigdeal.shop:443/english/translate';
 
   http.Response response = await http.post(Uri.parse(uri),
       headers: <String, String>{'Content-Type': "application/json"},
