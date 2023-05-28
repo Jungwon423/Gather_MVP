@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/expression.dart';
 import '../../widgets/Chat.dart';
+import '../../widgets/mobileChat.dart';
 import 'Goal.dart';
 
 class PageFormat extends StatelessWidget {
@@ -24,25 +25,58 @@ class PageFormat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            fit: BoxFit.fitWidth, image: AssetImage('assets/images/스케치북2.png')),
-      ),
-      child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Row(children: [
-            Goal(
-              situation: situation,
-              missionList: missionList,
-              expressionList: expressionList,
-            ),
-            NewChatScreen(
-              initialChat: initialChat,
-              problem: problem,
-              voice: voice,
-            )
-          ])),
-    );
+    double screenWidth = MediaQuery.of(context).size.width;
+    return screenWidth < 1000
+        ? shortScreen(initialChat, problem, voice)
+        : longScreen(situation, missionList, expressionList, initialChat,
+            problem, voice);
   }
+}
+
+Container longScreen(
+    String situation,
+    List<String> missionList,
+    List<Expression> expressionList,
+    List<String> initialChat,
+    String problem,
+    String voice) {
+  return Container(
+    decoration: const BoxDecoration(
+      image: DecorationImage(
+          fit: BoxFit.fitWidth, image: AssetImage('assets/images/스케치북2.png')),
+    ),
+    child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Row(children: [
+          Goal(
+            situation: situation,
+            missionList: missionList,
+            expressionList: expressionList,
+          ),
+          NewChatScreen(
+            initialChat: initialChat,
+            problem: problem,
+            voice: voice,
+          )
+        ])),
+  );
+}
+
+Container shortScreen(List<String> initialChat, String problem, String voice) {
+  return Container(
+    decoration: const BoxDecoration(
+      image: DecorationImage(
+          fit: BoxFit.fitWidth,
+          image: AssetImage('assets/images/스케치북1페이지.png')),
+    ),
+    child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Row(children: [
+          MobileChat(
+            initialChat: initialChat,
+            problem: problem,
+            voice: voice,
+          )
+        ])),
+  );
 }

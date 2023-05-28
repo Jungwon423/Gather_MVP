@@ -10,13 +10,14 @@ import 'widgets___chat_bubble.dart';
 
 class ChatBubbleInChatByGPT extends StatefulWidget {
   ChatBubbleInChatByGPT(this.message, this.helpText, this.tipExist,
-      {Key? key, required this.voice})
+      {Key? key, required this.voice, required this.isMobile})
       : super(key: key);
 
   final String message;
   final List<String> helpText;
   final bool tipExist;
   String voice;
+  bool isMobile;
 
   @override
   State<ChatBubbleInChatByGPT> createState() => _ChatBubbleInChatByGPTState();
@@ -52,9 +53,9 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width / 4.5,
+            width: !widget.isMobile ?  screenWidth / 4.5 : screenWidth/2.25,
             constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width / 4.5),
+                maxWidth: !widget.isMobile ?  screenWidth / 4.5 : screenWidth/2.25),
             decoration: BoxDecoration(
               color: Colors.grey[100],
               borderRadius: const BorderRadius.all(
@@ -74,12 +75,12 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
                       children: [
                         listenButton(() {
                           speak(widget.message, context, client, widget.voice);
-                        }),
+                        }, widget.isMobile),
                         translateButton(() {
                           setState(() {
                             translate = !translate;
                           });
-                        }, translate),
+                        }, translate, widget.isMobile),
                       ],
                     ),
                     SizedBox(
@@ -89,12 +90,12 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
                       widget.message,
                       style: textTheme()
                           .displayLarge!
-                          .copyWith(fontWeight: FontWeight.w500),
+                          .copyWith(fontSize: !widget.isMobile ? 15.sp : 30.sp,fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
                       height: 20.h,
                     ),
-                    if (translate) translateText(widget.message)
+                    if (translate) translateText(widget.message, widget.isMobile)
                   ],
                 ),
               ),

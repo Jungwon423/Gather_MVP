@@ -33,7 +33,7 @@ class _TaxiState extends State<Taxi> {
       ],
       initialChat: ['Hello, welcome to my Uber. Where can I take you today?'],
       problem: '우버 택시',
-      voice: 'en-US-News-N	',
+      voice: 'en-US-News-N',
     );
   }
 }

@@ -11,18 +11,23 @@ import '../Google_API_Credentials.dart';
 import '../models/chat_in_chat.dart';
 import 'messages_in_chat.dart';
 
-class NewChatScreen extends StatefulWidget {
-  NewChatScreen({super.key, required this.initialChat, required this.problem, required this.voice});
+// ignore: must_be_immutable
+class MobileChat extends StatefulWidget {
+  MobileChat(
+      {super.key,
+      required this.initialChat,
+      required this.problem,
+      required this.voice});
 
   List<String> initialChat;
   String problem;
   String voice;
 
   @override
-  State<NewChatScreen> createState() => _NewChatScreenState();
+  State<MobileChat> createState() => _MobileChatState();
 }
 
-class _NewChatScreenState extends State<NewChatScreen> {
+class _MobileChatState extends State<MobileChat> {
   SoundRecorder recorder = SoundRecorder();
 
   int voiceIndex = 0;
@@ -51,7 +56,10 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
     // Google API 연결 - speak - microphone 권한 획득
     initAPI().then((value) => speak(
-            widget.initialChat[widget.initialChat.length - 1], context, client, widget.voice)
+            widget.initialChat[widget.initialChat.length - 1],
+            context,
+            client,
+            widget.voice)
         .then((value) => recorder.init()));
   }
 
@@ -137,7 +145,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: screenWidth / 2,
+      width: screenWidth,
       height: screenHeight,
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -183,20 +191,21 @@ class _NewChatScreenState extends State<NewChatScreen> {
           child: Container(
             padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
             child: Column(children: [
-              if (screenHeight > screenWidth * 2119 / 3277)
+              if (screenHeight > screenWidth * 2119 / 3277 * 2)
                 SizedBox(
-                  height: (screenHeight - screenWidth * 2119 / 3277) / 2,
+                  height: (screenHeight - screenWidth * 2119 / 3277 * 2) / 2,
                 ),
               Expanded(
                 child: MessagesInChat(
                   chatList: chatList,
                   scrollController: scrollController,
-                  voice: widget.voice, isMobile: false,
+                  voice: widget.voice,
+                  isMobile: true,
                 ),
               ),
-              if (screenHeight > screenWidth * 2119 / 3277)
+              if (screenHeight > screenWidth * 2119 / 3277 * 2)
                 SizedBox(
-                  height: (screenHeight - screenWidth * 2119 / 3277) / 2,
+                  height: (screenHeight - screenWidth * 2119 / 3277 * 2) / 2,
                 ),
             ]),
           ),

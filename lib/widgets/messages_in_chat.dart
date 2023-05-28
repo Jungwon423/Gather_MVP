@@ -11,9 +11,10 @@ class MessagesInChat extends StatelessWidget {
   List<ChatInChat> chatList;
   ScrollController scrollController;
   String voice;
+  bool isMobile;
 
   MessagesInChat(
-      {Key? key, required this.chatList, required this.scrollController, required this.voice})
+      {Key? key, required this.chatList, required this.scrollController, required this.voice, required this.isMobile})
       : super(key: key);
 
   @override
@@ -31,10 +32,10 @@ class MessagesInChat extends StatelessWidget {
           return WaitingChatBubble(chatInChat.sender == 'me');
         } else if (chatInChat.sender == 'GPT') {
           return ChatBubbleInChatByGPT(
-              chatInChat.chat, chatInChat.helpText, chatInChat.tipExist, voice: voice,);
+              chatInChat.chat, chatInChat.helpText, chatInChat.tipExist, voice: voice, isMobile: isMobile,);
         } else {
           return ChatBubbleInChatByMe(
-              chatInChat.chat, chatInChat.helpText, chatInChat.tipExist);
+              chatInChat.chat, chatInChat.helpText, chatInChat.tipExist, isMobile);
         }
       },
     );

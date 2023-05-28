@@ -8,13 +8,15 @@ import '../../theme.dart';
 import 'widgets___chat_bubble.dart';
 
 class ChatBubbleInChatByMe extends StatefulWidget {
-  const ChatBubbleInChatByMe(this.message, this.helpText, this.tipExist,
+  ChatBubbleInChatByMe(
+      this.message, this.helpText, this.tipExist, this.isMobile,
       {Key? key})
       : super(key: key);
 
   final String message;
   final List<String> helpText;
   final bool tipExist;
+  bool isMobile;
 
   @override
   State<ChatBubbleInChatByMe> createState() => _ChatBubbleInChatByMeState();
@@ -41,26 +43,26 @@ class _ChatBubbleInChatByMeState extends State<ChatBubbleInChatByMe> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: screenWidth*0.05),
+      padding:
+          EdgeInsets.symmetric(vertical: !widget.isMobile ? 8.h : 4.h, horizontal: screenWidth * 0.05),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width / 4.5,
+            width: !widget.isMobile ?  screenWidth / 4.5 : screenWidth/2.25,
             constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width / 4.5),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(
+                maxWidth: !widget.isMobile ?  screenWidth / 4.5 : screenWidth/2.25),
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              borderRadius: const BorderRadius.all(
                 Radius.circular(12),
               ),
             ),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
+                padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -68,13 +70,14 @@ class _ChatBubbleInChatByMeState extends State<ChatBubbleInChatByMe> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         listenButton(() {
-                          speak(widget.message, context, client, 'en-US-Neural2-H');
-                        }),
+                          speak(widget.message, context, client,
+                              'en-US-Neural2-H');
+                        }, widget.isMobile),
                         translateButton(() {
                           setState(() {
                             translate = !translate;
                           });
-                        }, translate),
+                        }, translate,widget.isMobile),
                       ],
                     ),
                     SizedBox(
@@ -84,12 +87,12 @@ class _ChatBubbleInChatByMeState extends State<ChatBubbleInChatByMe> {
                       widget.message,
                       style: textTheme()
                           .displayLarge!
-                          .copyWith(fontWeight: FontWeight.w500),
+                          .copyWith(fontSize: !widget.isMobile ? 15.sp : 30.sp, fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
                       height: 20.h,
                     ),
-                    if (translate) translateText(widget.message)
+                    if (translate) translateText(widget.message, widget.isMobile)
                   ],
                 ),
               ),

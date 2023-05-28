@@ -50,35 +50,35 @@ Future speak(String text, BuildContext context, AutoRefreshingAuthClient client,
   }
 }
 
-// 일본 TTS
-Future speakJapanese(
-    String text, BuildContext context, AutoRefreshingAuthClient client) async {
-  try {
-    final input = SynthesisInput(text: text);
-    final voice = VoiceSelectionParams(
-        languageCode: 'ja-JP', name: 'ja-JP-Neural2-B'); // TODO : 일본어 랜덤으로
-    final audioConfig = AudioConfig(audioEncoding: "MP3");
-
-    final synthesizeSpeechRequest = SynthesizeSpeechRequest(
-        audioConfig: audioConfig, input: input, voice: voice);
-
-    SynthesizeSpeechResponse synthesizeSpeechResponse =
-        await TexttospeechApi(client).text.synthesize(synthesizeSpeechRequest);
-
-    List<int> audioContent = synthesizeSpeechResponse.audioContentAsBytes;
-
-    final blob = html.Blob([audioContent], 'audio/mpeg');
-
-    // Create a URL pointing to the Blob and create an AudioElement
-    final blobUrl = html.Url.createObjectUrlFromBlob(blob);
-    final audioElement = html.AudioElement(blobUrl);
-
-    // Play the audio file
-    audioElement.play();
-  } catch (error) {
-    print(error);
-  }
-}
+// // 일본 TTS
+// Future speakJapanese(
+//     String text, BuildContext context, AutoRefreshingAuthClient client) async {
+//   try {
+//     final input = SynthesisInput(text: text);
+//     final voice = VoiceSelectionParams(
+//         languageCode: 'ja-JP', name: 'ja-JP-Neural2-B'); // TODO : 일본어 랜덤으로
+//     final audioConfig = AudioConfig(audioEncoding: "MP3");
+//
+//     final synthesizeSpeechRequest = SynthesizeSpeechRequest(
+//         audioConfig: audioConfig, input: input, voice: voice);
+//
+//     SynthesizeSpeechResponse synthesizeSpeechResponse =
+//         await TexttospeechApi(client).text.synthesize(synthesizeSpeechRequest);
+//
+//     List<int> audioContent = synthesizeSpeechResponse.audioContentAsBytes;
+//
+//     final blob = html.Blob([audioContent], 'audio/mpeg');
+//
+//     // Create a URL pointing to the Blob and create an AudioElement
+//     final blobUrl = html.Url.createObjectUrlFromBlob(blob);
+//     final audioElement = html.AudioElement(blobUrl);
+//
+//     // Play the audio file
+//     audioElement.play();
+//   } catch (error) {
+//     print(error);
+//   }
+// }
 
 // 번역 API
 Future translateAPI(String text) async {
@@ -101,7 +101,7 @@ Future translateAPI(String text) async {
 }
 
 // 번역된 텍스트
-FutureBuilder translateText(String text) {
+FutureBuilder translateText(String text, bool isMobile) {
   return FutureBuilder(
       future: translateAPI(text),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -127,6 +127,7 @@ FutureBuilder translateText(String text) {
             Text(
               snapshot.data,
               style: textTheme().displayLarge!.copyWith(
+                fontSize: !isMobile ? 15.sp : 30.sp,
                   color: Colors.blueAccent, fontWeight: FontWeight.w500),
             ),
           ]);
@@ -153,20 +154,20 @@ ElevatedButton foldButton(VoidCallback onPressed, bool fold) {
 }
 
 // 스피커 버튼
-ConstrainedBox listenButton(VoidCallback onPressed) {
+ConstrainedBox listenButton(VoidCallback onPressed, bool isMobile) {
   return ConstrainedBox(
-    constraints: BoxConstraints.tightFor(width: 40.w),
+    constraints: BoxConstraints.tightFor(width: !isMobile ? 40.w : 80.w),
     child: ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-          fixedSize: Size(40.w, 40.w),
+          fixedSize: Size(!isMobile ? 40.w : 80.w, !isMobile ? 40.w : 80.w),
           padding: EdgeInsets.zero,
           shape: const CircleBorder(),
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.grey[200]),
       child: Icon(
         Icons.volume_up_outlined,
-        size: 30.sp,
+        size: !isMobile ? 30.sp : 60.sp,
         color: Colors.black,
       ),
     ),
@@ -195,11 +196,11 @@ ConstrainedBox smallListenButton(VoidCallback onPressed) {
 }
 
 // 번역 버튼
-ElevatedButton translateButton(VoidCallback onPressed, bool translate) {
+ElevatedButton translateButton(VoidCallback onPressed, bool translate, bool isMobile) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
         elevation: 3,
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        padding: EdgeInsets.symmetric(horizontal: !isMobile ? 10.w : 20.w),
         backgroundColor: Colors.grey[200],
         surfaceTintColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
@@ -207,16 +208,16 @@ ElevatedButton translateButton(VoidCallback onPressed, bool translate) {
     child: Row(mainAxisSize: MainAxisSize.min, children: [
       Image.asset(
         'assets/images/translate.png',
-        width: 30.w,
+        width: !isMobile ? 30.w : 60.w,
       ),
       SizedBox(
-        width: 10.w,
+        width: !isMobile ? 10.w : 20.w,
       ),
       Text(
         translate ? '번역 닫기' : '번역하기',
         style: textTheme()
             .displayLarge!
-            .copyWith(fontSize: 15.sp, fontWeight: FontWeight.w700),
+            .copyWith(fontSize:!isMobile ?  15.sp : 30.sp, fontWeight: FontWeight.w700),
       )
     ]),
   );
