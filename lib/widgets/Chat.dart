@@ -13,7 +13,11 @@ import '../models/chat_in_chat.dart';
 import 'messages_in_chat.dart';
 
 class NewChatScreen extends StatefulWidget {
-  NewChatScreen({super.key, required this.initialChat, required this.problem, required this.voice});
+  NewChatScreen(
+      {super.key,
+      required this.initialChat,
+      required this.problem,
+      required this.voice});
 
   List<String> initialChat;
   String problem;
@@ -24,6 +28,8 @@ class NewChatScreen extends StatefulWidget {
 }
 
 class _NewChatScreenState extends State<NewChatScreen> {
+  bool clicked = false;
+
   SoundRecorder recorder = SoundRecorder();
 
   int voiceIndex = 0;
@@ -52,8 +58,23 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
     // Google API 연결 - speak - microphone 권한 획득
     initAPI().then((value) => speak(
-            widget.initialChat[widget.initialChat.length - 1], context, client, widget.voice)
+            widget.initialChat[widget.initialChat.length - 1],
+            context,
+            client,
+            widget.voice)
         .then((value) => recorder.init()));
+  }
+
+  Future sendDevice() async {
+    String uri = 'https://ai.zigdeal.shop:443/english/device';
+
+    await http.post(Uri.parse(uri),
+        headers: <String, String>{'Content-Type': "application/json"},
+        body: jsonEncode(<String, dynamic>{
+          "chat_id": chatId,
+          "width": MediaQuery.of(context).size.width,
+          "height": MediaQuery.of(context).size.height,
+        }));
   }
 
   Future makeChat() async {
@@ -133,12 +154,10 @@ class _NewChatScreenState extends State<NewChatScreen> {
     super.dispose();
   }
 
-  Future<void> gaEvent(String eventName, Map<String, dynamic> eventParams) async
-  {
-    await FirebaseAnalytics.instance.logEvent(
-        name: eventName,
-        parameters: eventParams
-    );
+  Future<void> gaEvent(
+      String eventName, Map<String, dynamic> eventParams) async {
+    await FirebaseAnalytics.instance
+        .logEvent(name: eventName, parameters: eventParams);
   }
 
   @override
@@ -165,6 +184,10 @@ class _NewChatScreenState extends State<NewChatScreen> {
               shape: const CircleBorder(),
             ),
             onPressed: () async {
+              if (!clicked) {
+                clicked = true;
+                sendDevice();
+              }
               print('recorder 상태 : ' + recorder.isRecording.toString());
               if (recorder.isRecording) {
                 print('recorder 녹음 종료');
@@ -173,9 +196,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
                 print('recorder 녹음 시작');
                 await recorder.record();
                 setState(() {
-                  gaEvent('click_record',{
-                    'color':'blue'
-                  });
+                  gaEvent('click_record', {'color': 'blue'});
                 });
               }
             },
@@ -204,7 +225,8 @@ class _NewChatScreenState extends State<NewChatScreen> {
                 child: MessagesInChat(
                   chatList: chatList,
                   scrollController: scrollController,
-                  voice: widget.voice, isMobile: false,
+                  voice: widget.voice,
+                  isMobile: false,
                 ),
               ),
               if (screenHeight > screenWidth * 2119 / 3277)

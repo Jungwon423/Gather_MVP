@@ -28,6 +28,7 @@ class MobileChat extends StatefulWidget {
 }
 
 class _MobileChatState extends State<MobileChat> {
+  bool clicked = false;
   SoundRecorder recorder = SoundRecorder();
 
   int voiceIndex = 0;
@@ -61,6 +62,18 @@ class _MobileChatState extends State<MobileChat> {
             client,
             widget.voice)
         .then((value) => recorder.init()));
+  }
+
+  Future sendDevice() async {
+    String uri = 'https://ai.zigdeal.shop:443/english/device';
+
+    await http.post(Uri.parse(uri),
+        headers: <String, String>{'Content-Type': "application/json"},
+        body: jsonEncode(<String, dynamic>{
+          "chat_id": chatId,
+          "width": MediaQuery.of(context).size.width,
+          "height": MediaQuery.of(context).size.height,
+        }));
   }
 
   Future makeChat() async {
@@ -164,6 +177,10 @@ class _MobileChatState extends State<MobileChat> {
               shape: const CircleBorder(),
             ),
             onPressed: () async {
+              if (!clicked) {
+                clicked = true;
+                sendDevice();
+              }
               print('recorder 상태 : ' + recorder.isRecording.toString());
               if (recorder.isRecording) {
                 print('recorder 녹음 종료');
