@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:googleapis_auth/auth_io.dart';
@@ -42,6 +43,14 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
   bool translate = false;
   bool translateHelp = false;
 
+  Future<void> gaEvent(String eventName, Map<String, dynamic> eventParams) async
+  {
+    await FirebaseAnalytics.instance.logEvent(
+        name: eventName,
+        parameters: eventParams
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -75,9 +84,17 @@ class _ChatBubbleInChatByGPTState extends State<ChatBubbleInChatByGPT> {
                       children: [
                         listenButton(() {
                           speak(widget.message, context, client, widget.voice);
+                          setState(() {
+                            gaEvent('click_listen',{
+                              'color':'red'
+                            });
+                          });
                         }, widget.isMobile),
                         translateButton(() {
                           setState(() {
+                            gaEvent('click_translate',{
+                              'color':'red'
+                            });
                             translate = !translate;
                           });
                         }, translate, widget.isMobile),

@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:googleapis_auth/auth_io.dart';
@@ -20,6 +21,14 @@ class ChatBubbleInChatByMe extends StatefulWidget {
 
   @override
   State<ChatBubbleInChatByMe> createState() => _ChatBubbleInChatByMeState();
+}
+
+Future<void> gaEvent(String eventName, Map<String, dynamic> eventParams) async
+{
+  await FirebaseAnalytics.instance.logEvent(
+      name: eventName,
+      parameters: eventParams
+  );
 }
 
 class _ChatBubbleInChatByMeState extends State<ChatBubbleInChatByMe> {
@@ -72,9 +81,17 @@ class _ChatBubbleInChatByMeState extends State<ChatBubbleInChatByMe> {
                         listenButton(() {
                           speak(widget.message, context, client,
                               'en-US-Neural2-H');
+                          setState(() {
+                            gaEvent('click_listen',{
+                              'color':'red'
+                            });
+                          });
                         }, widget.isMobile),
                         translateButton(() {
                           setState(() {
+                            gaEvent('click_translate',{
+                              'color':'red'
+                            });
                             translate = !translate;
                           });
                         }, translate,widget.isMobile),

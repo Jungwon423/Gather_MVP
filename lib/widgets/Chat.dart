@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gather_mvp/widgets/sound_recorder.dart';
@@ -132,6 +133,14 @@ class _NewChatScreenState extends State<NewChatScreen> {
     super.dispose();
   }
 
+  Future<void> gaEvent(String eventName, Map<String, dynamic> eventParams) async
+  {
+    await FirebaseAnalytics.instance.logEvent(
+        name: eventName,
+        parameters: eventParams
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -163,7 +172,11 @@ class _NewChatScreenState extends State<NewChatScreen> {
               } else if (recorder.isRecording == false) {
                 print('recorder 녹음 시작');
                 await recorder.record();
-                setState(() {});
+                setState(() {
+                  gaEvent('click_record',{
+                    'color':'blue'
+                  });
+                });
               }
             },
             child: SizedBox(
